@@ -1,0 +1,9 @@
+---
+source: src/tests/run_suites.rs
+---
+Err(
+    Syntax {
+        lineno: 1,
+        text: "cannot parse line: '�PNG'",
+    },
+)

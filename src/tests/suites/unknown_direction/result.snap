@@ -1,0 +1,135 @@
+---
+source: src/tests/run_suites.rs
+---
+Ok(
+    Statement {
+        encoding: Cp1251,
+        header: {
+            "ВерсияФормата": "1.03",
+            "Кодировка": "Windows",
+            "ДатаСоздания": "29.02.2024",
+            "Получатель": "Иванов Иван Иванович",
+            "ДатаНачала": "29.02.2024",
+            "ДатаКонца": "29.02.2024",
+            "РасчСчет": "40802000000000000011",
+        },
+        accounts: {
+            "40802000000000000011": Account {
+                number: "40802000000000000011",
+                intervals: [
+                    Interval {
+                        date_start: 2024-02-29,
+                        date_end: Some(
+                            2024-02-29,
+                        ),
+                        total_income: Some(
+                            207459,
+                        ),
+                        total_expense: Some(
+                            4900,
+                        ),
+                        start_amount: 107728.7,
+                        end_amount: Some(
+                            310287.7,
+                        ),
+                    },
+                ],
+            },
+        },
+        documents: [
+            Document {
+                doc_number: "6502",
+                doc_type: "Платежное поручение",
+                payment_type: Some(
+                    "09",
+                ),
+                doc_date: 2024-02-29,
+                purpose: "Оплата по договору",
+                ordering: Some(
+                    "",
+                ),
+                amount: 4900,
+                counterparty_inn: "180000000005",
+                counterparty_kpp: Some(
+                    "590000002",
+                ),
+                counterparty_bic: "045773873",
+                counterparty_bank1: "Пермский Филиал АО ЮниКредит Банка",
+                counterparty_account: "40802000000000000011",
+                counterparty: Some(
+                    "Петров Петр Петрович",
+                ),
+                counterparty_1: Some(
+                    "Петров Петр Петрович",
+                ),
+                outcome_date: Some(
+                    2024-02-29,
+                ),
+                counterparty_ras_account: None,
+                counterparty_cor_account: None,
+                payee_inn: "7700000003",
+                payee: Some(
+                    "Сидоров Сидор Сидорович",
+                ),
+                payee_account: "70601000000000000006",
+                payee_kpp: Some(
+                    "590000002",
+                ),
+                payee_bic: "045773873",
+                payee_bank1: "Пермский Филиал АО ЮниКредит Банка",
+                payee_ras_account: Some(
+                    "70601000000000000006",
+                ),
+                payee_cor_account: None,
+                income_date: None,
+            },
+            Document {
+                doc_number: "FDC240",
+                doc_type: "Платежное поручение",
+                payment_type: Some(
+                    "01",
+                ),
+                doc_date: 2024-02-29,
+                purpose: "Перевод средств",
+                ordering: Some(
+                    "",
+                ),
+                amount: 207459,
+                counterparty_inn: "4",
+                counterparty_kpp: Some(
+                    "4",
+                ),
+                counterparty_bic: "",
+                counterparty_bank1: "NEW YORK NY USA",
+                counterparty_account: "006780000008",
+                counterparty: Some(
+                    "Петрова Галина Леонидовна",
+                ),
+                counterparty_1: Some(
+                    "Петрова Галина Леонидовна",
+                ),
+                outcome_date: None,
+                counterparty_ras_account: None,
+                counterparty_cor_account: None,
+                payee_inn: "180000000005",
+                payee: Some(
+                    "Кузнецова Мария Сергеевна",
+                ),
+                payee_account: "40802000000000000011",
+                payee_kpp: Some(
+                    "4",
+                ),
+                payee_bic: "",
+                payee_bank1: "UniCredit Bank",
+                payee_ras_account: Some(
+                    "40802000000000000011",
+                ),
+                payee_cor_account: None,
+                income_date: Some(
+                    2024-02-29,
+                ),
+            },
+        ],
+        warnings: [],
+    },
+)

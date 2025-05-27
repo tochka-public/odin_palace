@@ -1,0 +1,1038 @@
+---
+source: src/tests/run_suites.rs
+---
+Ok(
+    Statement {
+        encoding: Cp1251,
+        header: {
+            "ВерсияФормата": "1.03",
+            "Кодировка": "windows-1251",
+            "Отправитель": "",
+            "Получатель": "Иванов Иван Иванович",
+            "ДатаСоздания": "09.03.2023",
+            "ВремяСоздания": "10:42:04",
+            "ДатаНачала": "09.01.2022",
+            "ДатаКонца": "09.03.2023",
+            "РасчСчет": "40802000000000000069",
+        },
+        accounts: {
+            "40802000000000000071": Account {
+                number: "40802000000000000071",
+                intervals: [
+                    Interval {
+                        date_start: 2022-07-21,
+                        date_end: Some(
+                            2022-07-21,
+                        ),
+                        total_income: Some(
+                            91.23,
+                        ),
+                        total_expense: Some(
+                            68.33,
+                        ),
+                        start_amount: 0,
+                        end_amount: Some(
+                            22.9,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2022-07-27,
+                        date_end: Some(
+                            2022-07-27,
+                        ),
+                        total_income: Some(
+                            10106.78,
+                        ),
+                        total_expense: Some(
+                            16.98,
+                        ),
+                        start_amount: 22.9,
+                        end_amount: Some(
+                            10112.7,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2022-08-01,
+                        date_end: Some(
+                            2022-08-01,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            31.35,
+                        ),
+                        start_amount: 10112.7,
+                        end_amount: Some(
+                            10081.35,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2022-08-02,
+                        date_end: Some(
+                            2022-08-02,
+                        ),
+                        total_income: Some(
+                            6346.2,
+                        ),
+                        total_expense: Some(
+                            10.66,
+                        ),
+                        start_amount: 10081.35,
+                        end_amount: Some(
+                            16416.89,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2022-08-09,
+                        date_end: Some(
+                            2022-08-09,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            4100,
+                        ),
+                        start_amount: 16416.89,
+                        end_amount: Some(
+                            12316.89,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2022-08-12,
+                        date_end: Some(
+                            2022-08-12,
+                        ),
+                        total_income: Some(
+                            6661.17,
+                        ),
+                        total_expense: Some(
+                            11.2,
+                        ),
+                        start_amount: 12316.89,
+                        end_amount: Some(
+                            18966.86,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2022-08-26,
+                        date_end: Some(
+                            2022-08-26,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            8000,
+                        ),
+                        start_amount: 18966.86,
+                        end_amount: Some(
+                            10966.86,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2022-09-01,
+                        date_end: Some(
+                            2022-09-01,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            58.04,
+                        ),
+                        start_amount: 10966.86,
+                        end_amount: Some(
+                            10908.82,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2022-09-07,
+                        date_end: Some(
+                            2022-09-07,
+                        ),
+                        total_income: Some(
+                            6308.44,
+                        ),
+                        total_expense: Some(
+                            10.6,
+                        ),
+                        start_amount: 10908.82,
+                        end_amount: Some(
+                            17206.66,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2022-09-26,
+                        date_end: Some(
+                            2022-09-26,
+                        ),
+                        total_income: Some(
+                            5092.44,
+                        ),
+                        total_expense: Some(
+                            8.56,
+                        ),
+                        start_amount: 17206.66,
+                        end_amount: Some(
+                            22290.54,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2022-10-03,
+                        date_end: Some(
+                            2022-10-03,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            60.99,
+                        ),
+                        start_amount: 22290.54,
+                        end_amount: Some(
+                            22229.55,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2022-10-31,
+                        date_end: Some(
+                            2022-10-31,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            22000,
+                        ),
+                        start_amount: 22229.55,
+                        end_amount: Some(
+                            229.55,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2022-11-01,
+                        date_end: Some(
+                            2022-11-01,
+                        ),
+                        total_income: Some(
+                            4880.88,
+                        ),
+                        total_expense: Some(
+                            65.49,
+                        ),
+                        start_amount: 229.55,
+                        end_amount: Some(
+                            5044.94,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2022-11-29,
+                        date_end: Some(
+                            2022-11-29,
+                        ),
+                        total_income: Some(
+                            6308.44,
+                        ),
+                        total_expense: Some(
+                            10.6,
+                        ),
+                        start_amount: 5044.94,
+                        end_amount: Some(
+                            11342.78,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2022-12-01,
+                        date_end: Some(
+                            2022-12-01,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            57.69,
+                        ),
+                        start_amount: 11342.78,
+                        end_amount: Some(
+                            11285.09,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2022-12-22,
+                        date_end: Some(
+                            2022-12-22,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            5000,
+                        ),
+                        start_amount: 11285.09,
+                        end_amount: Some(
+                            6285.09,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2022-12-28,
+                        date_end: Some(
+                            2022-12-28,
+                        ),
+                        total_income: Some(
+                            5356.89,
+                        ),
+                        total_expense: Some(
+                            6294,
+                        ),
+                        start_amount: 6285.09,
+                        end_amount: Some(
+                            5347.98,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2022-12-29,
+                        date_end: Some(
+                            2022-12-29,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            52.9,
+                        ),
+                        start_amount: 5347.98,
+                        end_amount: Some(
+                            5295.08,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2023-01-30,
+                        date_end: Some(
+                            2023-01-30,
+                        ),
+                        total_income: Some(
+                            5110.88,
+                        ),
+                        total_expense: Some(
+                            8.59,
+                        ),
+                        start_amount: 5295.08,
+                        end_amount: Some(
+                            10397.37,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2023-02-01,
+                        date_end: Some(
+                            2023-02-01,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            53.22,
+                        ),
+                        start_amount: 10397.37,
+                        end_amount: Some(
+                            10344.15,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2023-02-08,
+                        date_end: Some(
+                            2023-02-08,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            6285,
+                        ),
+                        start_amount: 10344.15,
+                        end_amount: Some(
+                            4059.15,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2023-02-28,
+                        date_end: Some(
+                            2023-02-28,
+                        ),
+                        total_income: Some(
+                            13855.88,
+                        ),
+                        total_expense: Some(
+                            23.28,
+                        ),
+                        start_amount: 4059.15,
+                        end_amount: Some(
+                            17891.75,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2023-03-01,
+                        date_end: Some(
+                            2023-03-01,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            51.57,
+                        ),
+                        start_amount: 17891.75,
+                        end_amount: Some(
+                            17840.18,
+                        ),
+                    },
+                ],
+            },
+            "40802000000000000069": Account {
+                number: "40802000000000000069",
+                intervals: [
+                    Interval {
+                        date_start: 2022-07-19,
+                        date_end: Some(
+                            2022-07-19,
+                        ),
+                        total_income: Some(
+                            91.23,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 0,
+                        end_amount: Some(
+                            91.23,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2022-07-21,
+                        date_end: Some(
+                            2022-07-21,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            91.23,
+                        ),
+                        start_amount: 91.23,
+                        end_amount: Some(
+                            0,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2022-07-26,
+                        date_end: Some(
+                            2022-07-26,
+                        ),
+                        total_income: Some(
+                            10106.78,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 0,
+                        end_amount: Some(
+                            10106.78,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2022-07-27,
+                        date_end: Some(
+                            2022-07-27,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            10106.78,
+                        ),
+                        start_amount: 10106.78,
+                        end_amount: Some(
+                            0,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2022-08-02,
+                        date_end: Some(
+                            2022-08-02,
+                        ),
+                        total_income: Some(
+                            6346.2,
+                        ),
+                        total_expense: Some(
+                            6346.2,
+                        ),
+                        start_amount: 0,
+                        end_amount: Some(
+                            0,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2022-08-10,
+                        date_end: Some(
+                            2022-08-10,
+                        ),
+                        total_income: Some(
+                            6661.17,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 0,
+                        end_amount: Some(
+                            6661.17,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2022-08-12,
+                        date_end: Some(
+                            2022-08-12,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            6661.17,
+                        ),
+                        start_amount: 6661.17,
+                        end_amount: Some(
+                            0,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2022-09-06,
+                        date_end: Some(
+                            2022-09-06,
+                        ),
+                        total_income: Some(
+                            6308.44,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 0,
+                        end_amount: Some(
+                            6308.44,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2022-09-07,
+                        date_end: Some(
+                            2022-09-07,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            6308.44,
+                        ),
+                        start_amount: 6308.44,
+                        end_amount: Some(
+                            0,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2022-09-22,
+                        date_end: Some(
+                            2022-09-22,
+                        ),
+                        total_income: Some(
+                            5092.44,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 0,
+                        end_amount: Some(
+                            5092.44,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2022-09-26,
+                        date_end: Some(
+                            2022-09-26,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            5092.44,
+                        ),
+                        start_amount: 5092.44,
+                        end_amount: Some(
+                            0,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2022-10-26,
+                        date_end: Some(
+                            2022-10-26,
+                        ),
+                        total_income: Some(
+                            4880.88,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 0,
+                        end_amount: Some(
+                            4880.88,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2022-11-01,
+                        date_end: Some(
+                            2022-11-01,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            4880.88,
+                        ),
+                        start_amount: 4880.88,
+                        end_amount: Some(
+                            0,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2022-11-28,
+                        date_end: Some(
+                            2022-11-28,
+                        ),
+                        total_income: Some(
+                            6308.44,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 0,
+                        end_amount: Some(
+                            6308.44,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2022-11-29,
+                        date_end: Some(
+                            2022-11-29,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            6308.44,
+                        ),
+                        start_amount: 6308.44,
+                        end_amount: Some(
+                            0,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2022-12-26,
+                        date_end: Some(
+                            2022-12-26,
+                        ),
+                        total_income: Some(
+                            5356.89,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 0,
+                        end_amount: Some(
+                            5356.89,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2022-12-28,
+                        date_end: Some(
+                            2022-12-28,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            5356.89,
+                        ),
+                        start_amount: 5356.89,
+                        end_amount: Some(
+                            0,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2023-01-27,
+                        date_end: Some(
+                            2023-01-27,
+                        ),
+                        total_income: Some(
+                            5110.88,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 0,
+                        end_amount: Some(
+                            5110.88,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2023-01-30,
+                        date_end: Some(
+                            2023-01-30,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            5110.88,
+                        ),
+                        start_amount: 5110.88,
+                        end_amount: Some(
+                            0,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2023-02-27,
+                        date_end: Some(
+                            2023-02-27,
+                        ),
+                        total_income: Some(
+                            13855.88,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 0,
+                        end_amount: Some(
+                            13855.88,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2023-02-28,
+                        date_end: Some(
+                            2023-02-28,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            13855.88,
+                        ),
+                        start_amount: 13855.88,
+                        end_amount: Some(
+                            0,
+                        ),
+                    },
+                ],
+            },
+        },
+        documents: [
+            Document {
+                doc_number: "824251",
+                doc_type: "Банковский ордер",
+                payment_type: Some(
+                    "17",
+                ),
+                doc_date: 2022-07-21,
+                purpose: "Оплата по договору",
+                ordering: Some(
+                    "",
+                ),
+                amount: 1.06,
+                counterparty_inn: "360000000014",
+                counterparty_kpp: Some(
+                    "2",
+                ),
+                counterparty_bic: "044525700",
+                counterparty_bank1: "АО \"Райффайзенбанк\" г. Москва",
+                counterparty_account: "40802000000000000071",
+                counterparty: Some(
+                    "Петров Петр Петрович",
+                ),
+                counterparty_1: None,
+                outcome_date: Some(
+                    2022-07-21,
+                ),
+                counterparty_ras_account: Some(
+                    "40802000000000000071",
+                ),
+                counterparty_cor_account: Some(
+                    "30101000000000000049",
+                ),
+                payee_inn: "7700000010",
+                payee: Some(
+                    "Сидоров Сидор Сидорович",
+                ),
+                payee_account: "60309000000000000051",
+                payee_kpp: Some(
+                    "770000004",
+                ),
+                payee_bic: "044525700",
+                payee_bank1: "АО \"Райффайзенбанк\" г. Москва",
+                payee_ras_account: Some(
+                    "60309000000000000051",
+                ),
+                payee_cor_account: Some(
+                    "30101000000000000049",
+                ),
+                income_date: None,
+            },
+            Document {
+                doc_number: "824245",
+                doc_type: "Банковский ордер",
+                payment_type: Some(
+                    "17",
+                ),
+                doc_date: 2022-07-21,
+                purpose: "Перевод средств",
+                ordering: Some(
+                    "",
+                ),
+                amount: 5.29,
+                counterparty_inn: "360000000014",
+                counterparty_kpp: Some(
+                    "2",
+                ),
+                counterparty_bic: "044525700",
+                counterparty_bank1: "АО \"Райффайзенбанк\" г. Москва",
+                counterparty_account: "40802000000000000071",
+                counterparty: Some(
+                    "Петров Петр Петрович",
+                ),
+                counterparty_1: None,
+                outcome_date: Some(
+                    2022-07-21,
+                ),
+                counterparty_ras_account: Some(
+                    "40802000000000000071",
+                ),
+                counterparty_cor_account: Some(
+                    "30101000000000000049",
+                ),
+                payee_inn: "7700000010",
+                payee: Some(
+                    "Сидоров Сидор Сидорович",
+                ),
+                payee_account: "47423000000000000055",
+                payee_kpp: Some(
+                    "770000004",
+                ),
+                payee_bic: "044525700",
+                payee_bank1: "АО \"Райффайзенбанк\" г. Москва",
+                payee_ras_account: Some(
+                    "47423000000000000055",
+                ),
+                payee_cor_account: Some(
+                    "30101000000000000049",
+                ),
+                income_date: None,
+            },
+            Document {
+                doc_number: "888247",
+                doc_type: "Банковский ордер",
+                payment_type: Some(
+                    "17",
+                ),
+                doc_date: 2022-07-21,
+                purpose: "Тестовая операция",
+                ordering: Some(
+                    "",
+                ),
+                amount: 30.99,
+                counterparty_inn: "360000000014",
+                counterparty_kpp: Some(
+                    "2",
+                ),
+                counterparty_bic: "044525700",
+                counterparty_bank1: "АО \"Райффайзенбанк\" г. Москва",
+                counterparty_account: "40802000000000000071",
+                counterparty: Some(
+                    "Петров Петр Петрович",
+                ),
+                counterparty_1: None,
+                outcome_date: Some(
+                    2022-07-21,
+                ),
+                counterparty_ras_account: Some(
+                    "40802000000000000071",
+                ),
+                counterparty_cor_account: Some(
+                    "30101000000000000049",
+                ),
+                payee_inn: "7700000010",
+                payee: Some(
+                    "Сидоров Сидор Сидорович",
+                ),
+                payee_account: "47423000000000000063",
+                payee_kpp: Some(
+                    "770000004",
+                ),
+                payee_bic: "044525700",
+                payee_bank1: "АО \"Райффайзенбанк\" г. Москва",
+                payee_ras_account: Some(
+                    "47423000000000000063",
+                ),
+                payee_cor_account: Some(
+                    "30101000000000000049",
+                ),
+                income_date: None,
+            },
+            Document {
+                doc_number: "888253",
+                doc_type: "Банковский ордер",
+                payment_type: Some(
+                    "17",
+                ),
+                doc_date: 2022-07-21,
+                purpose: "Услуги",
+                ordering: Some(
+                    "",
+                ),
+                amount: 30.99,
+                counterparty_inn: "360000000014",
+                counterparty_kpp: Some(
+                    "2",
+                ),
+                counterparty_bic: "044525700",
+                counterparty_bank1: "АО \"Райффайзенбанк\" г. Москва",
+                counterparty_account: "40802000000000000071",
+                counterparty: Some(
+                    "Петров Петр Петрович",
+                ),
+                counterparty_1: None,
+                outcome_date: Some(
+                    2022-07-21,
+                ),
+                counterparty_ras_account: Some(
+                    "40802000000000000071",
+                ),
+                counterparty_cor_account: Some(
+                    "30101000000000000049",
+                ),
+                payee_inn: "7700000010",
+                payee: Some(
+                    "Сидоров Сидор Сидорович",
+                ),
+                payee_account: "47423000000000000063",
+                payee_kpp: Some(
+                    "770000004",
+                ),
+                payee_bic: "044525700",
+                payee_bank1: "АО \"Райффайзенбанк\" г. Москва",
+                payee_ras_account: Some(
+                    "47423000000000000063",
+                ),
+                payee_cor_account: Some(
+                    "30101000000000000049",
+                ),
+                income_date: None,
+            },
+            Document {
+                doc_number: "647015",
+                doc_type: "Прочее",
+                payment_type: Some(
+                    "01",
+                ),
+                doc_date: 2022-07-21,
+                purpose: "Платеж за услуги",
+                ordering: Some(
+                    "",
+                ),
+                amount: 91.23,
+                counterparty_inn: "360000000014",
+                counterparty_kpp: Some(
+                    "2",
+                ),
+                counterparty_bic: "044525700",
+                counterparty_bank1: "АО \"Райффайзенбанк\" г. Москва",
+                counterparty_account: "40802000000000000069",
+                counterparty: Some(
+                    "Петров Петр Петрович",
+                ),
+                counterparty_1: None,
+                outcome_date: Some(
+                    2022-07-21,
+                ),
+                counterparty_ras_account: Some(
+                    "40802000000000000069",
+                ),
+                counterparty_cor_account: Some(
+                    "30101000000000000049",
+                ),
+                payee_inn: "360000000014",
+                payee: Some(
+                    "Петров Петр Петрович",
+                ),
+                payee_account: "40802000000000000071",
+                payee_kpp: Some(
+                    "2",
+                ),
+                payee_bic: "044525700",
+                payee_bank1: "АО \"Райффайзенбанк\" г. Москва",
+                payee_ras_account: Some(
+                    "40802000000000000071",
+                ),
+                payee_cor_account: Some(
+                    "30101000000000000049",
+                ),
+                income_date: None,
+            },
+            Document {
+                doc_number: "471009",
+                doc_type: "Прочее",
+                payment_type: Some(
+                    "01",
+                ),
+                doc_date: 2022-07-27,
+                purpose: "Платеж за услуги",
+                ordering: Some(
+                    "",
+                ),
+                amount: 10106.78,
+                counterparty_inn: "360000000014",
+                counterparty_kpp: Some(
+                    "2",
+                ),
+                counterparty_bic: "044525700",
+                counterparty_bank1: "АО \"Райффайзенбанк\" г. Москва",
+                counterparty_account: "40802000000000000069",
+                counterparty: Some(
+                    "Петров Петр Петрович",
+                ),
+                counterparty_1: None,
+                outcome_date: None,
+                counterparty_ras_account: Some(
+                    "40802000000000000069",
+                ),
+                counterparty_cor_account: Some(
+                    "30101000000000000049",
+                ),
+                payee_inn: "360000000014",
+                payee: Some(
+                    "Петров Петр Петрович",
+                ),
+                payee_account: "40802000000000000071",
+                payee_kpp: Some(
+                    "2",
+                ),
+                payee_bic: "044525700",
+                payee_bank1: "АО \"Райффайзенбанк\" г. Москва",
+                payee_ras_account: Some(
+                    "40802000000000000071",
+                ),
+                payee_cor_account: Some(
+                    "30101000000000000049",
+                ),
+                income_date: Some(
+                    2022-07-27,
+                ),
+            },
+        ],
+        warnings: [],
+    },
+)

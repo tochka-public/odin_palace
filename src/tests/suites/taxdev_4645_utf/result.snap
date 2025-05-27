@@ -1,0 +1,543 @@
+---
+source: src/tests/run_suites.rs
+---
+Ok(
+    Statement {
+        encoding: Utf8,
+        header: {
+            "ВерсияФормата": "1.02",
+            "Кодировка": "Windows",
+            "Отправитель": "Tinkoff",
+            "Получатель": "Иванов Иван Иванович",
+            "ДатаСоздания": "16.04.2024",
+            "ВремяСоздания": "15:36:40",
+            "ДатаНачала": "01.04.2024",
+            "ДатаКонца": "16.04.2024",
+            "РасчСчет": "40802000000000000048",
+        },
+        accounts: {
+            "40802000000000000048": Account {
+                number: "40802000000000000048",
+                intervals: [
+                    Interval {
+                        date_start: 2024-04-01,
+                        date_end: Some(
+                            2024-04-16,
+                        ),
+                        total_income: Some(
+                            67770,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 0,
+                        end_amount: Some(
+                            67770,
+                        ),
+                    },
+                ],
+            },
+        },
+        documents: [
+            Document {
+                doc_number: "481544",
+                doc_type: "Банковский ордер",
+                payment_type: Some(
+                    "17",
+                ),
+                doc_date: 2024-04-13,
+                purpose: "Оплата по договору",
+                ordering: Some(
+                    "5",
+                ),
+                amount: 100,
+                counterparty_inn: "7700000010",
+                counterparty_kpp: None,
+                counterparty_bic: "044525225",
+                counterparty_bank1: "ПАО Сбербанк",
+                counterparty_account: "40911000000000000004",
+                counterparty: Some(
+                    "Петров Петр Петрович",
+                ),
+                counterparty_1: Some(
+                    "Петров Петр Петрович",
+                ),
+                outcome_date: Some(
+                    2024-04-13,
+                ),
+                counterparty_ras_account: Some(
+                    "40911000000000000004",
+                ),
+                counterparty_cor_account: Some(
+                    "30101000000000000005",
+                ),
+                payee_inn: "260000000021",
+                payee: Some(
+                    "Сидоров Сидор Сидорович",
+                ),
+                payee_account: "40802000000000000048",
+                payee_kpp: Some(
+                    "3",
+                ),
+                payee_bic: "044525974",
+                payee_bank1: "АО \"ТИНЬКОФФ БАНК\"",
+                payee_ras_account: Some(
+                    "40802000000000000048",
+                ),
+                payee_cor_account: Some(
+                    "30101000000000000008",
+                ),
+                income_date: None,
+            },
+            Document {
+                doc_number: "481542",
+                doc_type: "Банковский ордер",
+                payment_type: Some(
+                    "17",
+                ),
+                doc_date: 2024-04-13,
+                purpose: "Перевод средств",
+                ordering: Some(
+                    "5",
+                ),
+                amount: 1000,
+                counterparty_inn: "7700000020",
+                counterparty_kpp: None,
+                counterparty_bic: "044525593",
+                counterparty_bank1: "АО \"АЛЬФА-БАНК\"",
+                counterparty_account: "30233000000000000046",
+                counterparty: Some(
+                    "Петрова Галина Леонидовна",
+                ),
+                counterparty_1: Some(
+                    "Петрова Галина Леонидовна",
+                ),
+                outcome_date: Some(
+                    2024-04-13,
+                ),
+                counterparty_ras_account: Some(
+                    "30233000000000000046",
+                ),
+                counterparty_cor_account: Some(
+                    "30101000000000000011",
+                ),
+                payee_inn: "260000000021",
+                payee: Some(
+                    "Сидоров Сидор Сидорович",
+                ),
+                payee_account: "40802000000000000048",
+                payee_kpp: Some(
+                    "3",
+                ),
+                payee_bic: "044525974",
+                payee_bank1: "АО \"ТИНЬКОФФ БАНК\"",
+                payee_ras_account: Some(
+                    "40802000000000000048",
+                ),
+                payee_cor_account: Some(
+                    "30101000000000000008",
+                ),
+                income_date: None,
+            },
+            Document {
+                doc_number: "481543",
+                doc_type: "Банковский ордер",
+                payment_type: Some(
+                    "17",
+                ),
+                doc_date: 2024-04-13,
+                purpose: "Тестовая операция",
+                ordering: None,
+                amount: 1000,
+                counterparty_inn: "990000006",
+                counterparty_kpp: None,
+                counterparty_bic: "044525823",
+                counterparty_bank1: "Ф-Л БАНКА ГПБ (АО) \"Центральный\"",
+                counterparty_account: "30232000000000000015",
+                counterparty: Some(
+                    "Кузнецова Мария Сергеевна",
+                ),
+                counterparty_1: Some(
+                    "Кузнецова Мария Сергеевна",
+                ),
+                outcome_date: Some(
+                    2024-04-13,
+                ),
+                counterparty_ras_account: Some(
+                    "30232000000000000015",
+                ),
+                counterparty_cor_account: Some(
+                    "30101000000000000016",
+                ),
+                payee_inn: "260000000021",
+                payee: Some(
+                    "Сидоров Сидор Сидорович",
+                ),
+                payee_account: "40802000000000000048",
+                payee_kpp: Some(
+                    "3",
+                ),
+                payee_bic: "044525974",
+                payee_bank1: "АО \"ТИНЬКОФФ БАНК\"",
+                payee_ras_account: Some(
+                    "40802000000000000048",
+                ),
+                payee_cor_account: Some(
+                    "30101000000000000008",
+                ),
+                income_date: None,
+            },
+            Document {
+                doc_number: "4815425",
+                doc_type: "Банковский ордер",
+                payment_type: Some(
+                    "17",
+                ),
+                doc_date: 2024-04-13,
+                purpose: "Услуги",
+                ordering: Some(
+                    "5",
+                ),
+                amount: 50000,
+                counterparty_inn: "7700000010",
+                counterparty_kpp: None,
+                counterparty_bic: "042202603",
+                counterparty_bank1: "ВОЛГО-ВЯТСКИЙ БАНК ПАО СБЕРБАНК",
+                counterparty_account: "30233000000000000020",
+                counterparty: Some(
+                    "Смирнов Алексей Алексеевич",
+                ),
+                counterparty_1: Some(
+                    "Смирнов Алексей Алексеевич",
+                ),
+                outcome_date: Some(
+                    2024-04-13,
+                ),
+                counterparty_ras_account: Some(
+                    "30233000000000000020",
+                ),
+                counterparty_cor_account: Some(
+                    "30101000000000000021",
+                ),
+                payee_inn: "260000000021",
+                payee: Some(
+                    "Сидоров Сидор Сидорович",
+                ),
+                payee_account: "40802000000000000048",
+                payee_kpp: Some(
+                    "3",
+                ),
+                payee_bic: "044525974",
+                payee_bank1: "АО \"ТИНЬКОФФ БАНК\"",
+                payee_ras_account: Some(
+                    "40802000000000000048",
+                ),
+                payee_cor_account: Some(
+                    "30101000000000000008",
+                ),
+                income_date: None,
+            },
+            Document {
+                doc_number: "481546",
+                doc_type: "Банковский ордер",
+                payment_type: Some(
+                    "17",
+                ),
+                doc_date: 2024-04-13,
+                purpose: "Платеж за услуги",
+                ordering: Some(
+                    "5",
+                ),
+                amount: 2000,
+                counterparty_inn: "7700000010",
+                counterparty_kpp: None,
+                counterparty_bic: "044525225",
+                counterparty_bank1: "ПАО Сбербанк",
+                counterparty_account: "40911000000000000025",
+                counterparty: Some(
+                    "Петров Петр Петрович",
+                ),
+                counterparty_1: Some(
+                    "Петров Петр Петрович",
+                ),
+                outcome_date: Some(
+                    2024-04-13,
+                ),
+                counterparty_ras_account: Some(
+                    "40911000000000000025",
+                ),
+                counterparty_cor_account: Some(
+                    "30101000000000000005",
+                ),
+                payee_inn: "260000000021",
+                payee: Some(
+                    "Сидоров Сидор Сидорович",
+                ),
+                payee_account: "40802000000000000048",
+                payee_kpp: Some(
+                    "3",
+                ),
+                payee_bic: "044525974",
+                payee_bank1: "АО \"ТИНЬКОФФ БАНК\"",
+                payee_ras_account: Some(
+                    "40802000000000000048",
+                ),
+                payee_cor_account: Some(
+                    "30101000000000000008",
+                ),
+                income_date: None,
+            },
+            Document {
+                doc_number: "4815428",
+                doc_type: "Банковский ордер",
+                payment_type: Some(
+                    "17",
+                ),
+                doc_date: 2024-04-13,
+                purpose: "Погашение задолженности",
+                ordering: Some(
+                    "5",
+                ),
+                amount: 670,
+                counterparty_inn: "7800000012",
+                counterparty_kpp: None,
+                counterparty_bic: "044030852",
+                counterparty_bank1: "АО БАНК \"ПСКБ\"",
+                counterparty_account: "47422000000000000029",
+                counterparty: Some(
+                    "Васильева Ольга Николаевна",
+                ),
+                counterparty_1: Some(
+                    "Васильева Ольга Николаевна",
+                ),
+                outcome_date: Some(
+                    2024-04-13,
+                ),
+                counterparty_ras_account: Some(
+                    "47422000000000000029",
+                ),
+                counterparty_cor_account: Some(
+                    "30101000000000000030",
+                ),
+                payee_inn: "260000000021",
+                payee: Some(
+                    "Сидоров Сидор Сидорович",
+                ),
+                payee_account: "40802000000000000048",
+                payee_kpp: Some(
+                    "3",
+                ),
+                payee_bic: "044525974",
+                payee_bank1: "АО \"ТИНЬКОФФ БАНК\"",
+                payee_ras_account: Some(
+                    "40802000000000000048",
+                ),
+                payee_cor_account: Some(
+                    "30101000000000000008",
+                ),
+                income_date: None,
+            },
+            Document {
+                doc_number: "481551",
+                doc_type: "Банковский ордер",
+                payment_type: Some(
+                    "17",
+                ),
+                doc_date: 2024-04-13,
+                purpose: "Возврат средств",
+                ordering: Some(
+                    "5",
+                ),
+                amount: 1000,
+                counterparty_inn: "7700000020",
+                counterparty_kpp: None,
+                counterparty_bic: "044525593",
+                counterparty_bank1: "АО \"АЛЬФА-БАНК\"",
+                counterparty_account: "30233000000000000046",
+                counterparty: Some(
+                    "Петрова Галина Леонидовна",
+                ),
+                counterparty_1: Some(
+                    "Петрова Галина Леонидовна",
+                ),
+                outcome_date: Some(
+                    2024-04-13,
+                ),
+                counterparty_ras_account: Some(
+                    "30233000000000000046",
+                ),
+                counterparty_cor_account: Some(
+                    "30101000000000000011",
+                ),
+                payee_inn: "260000000021",
+                payee: Some(
+                    "Сидоров Сидор Сидорович",
+                ),
+                payee_account: "40802000000000000048",
+                payee_kpp: Some(
+                    "3",
+                ),
+                payee_bic: "044525974",
+                payee_bank1: "АО \"ТИНЬКОФФ БАНК\"",
+                payee_ras_account: Some(
+                    "40802000000000000048",
+                ),
+                payee_cor_account: Some(
+                    "30101000000000000008",
+                ),
+                income_date: None,
+            },
+            Document {
+                doc_number: "481552",
+                doc_type: "Банковский ордер",
+                payment_type: Some(
+                    "17",
+                ),
+                doc_date: 2024-04-13,
+                purpose: "Тестовый платеж",
+                ordering: Some(
+                    "5",
+                ),
+                amount: 10000,
+                counterparty_inn: "7700000020",
+                counterparty_kpp: None,
+                counterparty_bic: "044525593",
+                counterparty_bank1: "АО \"АЛЬФА-БАНК\"",
+                counterparty_account: "30233000000000000046",
+                counterparty: Some(
+                    "Петрова Галина Леонидовна",
+                ),
+                counterparty_1: Some(
+                    "Петрова Галина Леонидовна",
+                ),
+                outcome_date: Some(
+                    2024-04-13,
+                ),
+                counterparty_ras_account: Some(
+                    "30233000000000000046",
+                ),
+                counterparty_cor_account: Some(
+                    "30101000000000000011",
+                ),
+                payee_inn: "260000000021",
+                payee: Some(
+                    "Сидоров Сидор Сидорович",
+                ),
+                payee_account: "40802000000000000048",
+                payee_kpp: Some(
+                    "3",
+                ),
+                payee_bic: "044525974",
+                payee_bank1: "АО \"ТИНЬКОФФ БАНК\"",
+                payee_ras_account: Some(
+                    "40802000000000000048",
+                ),
+                payee_cor_account: Some(
+                    "30101000000000000008",
+                ),
+                income_date: None,
+            },
+            Document {
+                doc_number: "481553",
+                doc_type: "Банковский ордер",
+                payment_type: Some(
+                    "17",
+                ),
+                doc_date: 2024-04-13,
+                purpose: "Авансовый платеж",
+                ordering: Some(
+                    "5",
+                ),
+                amount: 1000,
+                counterparty_inn: "7700000020",
+                counterparty_kpp: None,
+                counterparty_bic: "044525593",
+                counterparty_bank1: "АО \"АЛЬФА-БАНК\"",
+                counterparty_account: "30233000000000000046",
+                counterparty: Some(
+                    "Петрова Галина Леонидовна",
+                ),
+                counterparty_1: Some(
+                    "Петрова Галина Леонидовна",
+                ),
+                outcome_date: Some(
+                    2024-04-13,
+                ),
+                counterparty_ras_account: Some(
+                    "30233000000000000046",
+                ),
+                counterparty_cor_account: Some(
+                    "30101000000000000011",
+                ),
+                payee_inn: "260000000021",
+                payee: Some(
+                    "Сидоров Сидор Сидорович",
+                ),
+                payee_account: "40802000000000000048",
+                payee_kpp: Some(
+                    "3",
+                ),
+                payee_bic: "044525974",
+                payee_bank1: "АО \"ТИНЬКОФФ БАНК\"",
+                payee_ras_account: Some(
+                    "40802000000000000048",
+                ),
+                payee_cor_account: Some(
+                    "30101000000000000008",
+                ),
+                income_date: None,
+            },
+            Document {
+                doc_number: "481554",
+                doc_type: "Банковский ордер",
+                payment_type: Some(
+                    "17",
+                ),
+                doc_date: 2024-04-13,
+                purpose: "Прочие операции",
+                ordering: Some(
+                    "5",
+                ),
+                amount: 1000,
+                counterparty_inn: "7700000020",
+                counterparty_kpp: None,
+                counterparty_bic: "044525593",
+                counterparty_bank1: "АО \"АЛЬФА-БАНК\"",
+                counterparty_account: "30233000000000000046",
+                counterparty: Some(
+                    "Петрова Галина Леонидовна",
+                ),
+                counterparty_1: Some(
+                    "Петрова Галина Леонидовна",
+                ),
+                outcome_date: Some(
+                    2024-04-13,
+                ),
+                counterparty_ras_account: Some(
+                    "30233000000000000046",
+                ),
+                counterparty_cor_account: Some(
+                    "30101000000000000011",
+                ),
+                payee_inn: "260000000021",
+                payee: Some(
+                    "Сидоров Сидор Сидорович",
+                ),
+                payee_account: "40802000000000000048",
+                payee_kpp: Some(
+                    "3",
+                ),
+                payee_bic: "044525974",
+                payee_bank1: "АО \"ТИНЬКОФФ БАНК\"",
+                payee_ras_account: Some(
+                    "40802000000000000048",
+                ),
+                payee_cor_account: Some(
+                    "30101000000000000008",
+                ),
+                income_date: None,
+            },
+        ],
+        warnings: [],
+    },
+)

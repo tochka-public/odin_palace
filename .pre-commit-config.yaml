@@ -1,0 +1,27 @@
+minimum_pre_commit_version: 3.2.0
+default_stages: [ pre-commit ]
+repos:
+  - repo: local
+    hooks:
+      - id: fmt
+        name: fmt
+        entry: cargo fmt
+        pass_filenames: false
+        language: system
+        always_run: true
+  - repo: local
+    hooks:
+      - id: clippy
+        name: clippy
+        entry: cargo clippy --all-targets --all-features
+        pass_filenames: false
+        language: system
+        always_run: true
+  - repo: local
+    hooks:
+      - id: tests
+        name: tests
+        entry: cargo test
+        pass_filenames: false
+        language: system
+        always_run: true

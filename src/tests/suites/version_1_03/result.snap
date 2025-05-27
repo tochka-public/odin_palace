@@ -1,0 +1,865 @@
+---
+source: src/tests/run_suites.rs
+---
+Ok(
+    Statement {
+        encoding: Cp1251,
+        header: {
+            "ВерсияФормата": "1.03",
+            "Кодировка": "Windows",
+            "Отправитель": "Сбербанк Бизнес Онлайн",
+            "Получатель": "Иванов Иван Иванович",
+            "ДатаСоздания": "16.05.2024",
+            "ВремяСоздания": "14:36:45",
+            "ДатаНачала": "01.04.2024",
+            "ДатаКонца": "16.05.2024",
+            "РасчСчет": "40802000000000000055",
+        },
+        accounts: {
+            "40802000000000000055": Account {
+                number: "40802000000000000055",
+                intervals: [
+                    Interval {
+                        date_start: 2024-04-01,
+                        date_end: Some(
+                            2024-04-01,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 49,
+                        end_amount: Some(
+                            49,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2024-04-02,
+                        date_end: Some(
+                            2024-04-02,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 49,
+                        end_amount: Some(
+                            49,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2024-04-03,
+                        date_end: Some(
+                            2024-04-03,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 49,
+                        end_amount: Some(
+                            49,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2024-04-04,
+                        date_end: Some(
+                            2024-04-04,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 49,
+                        end_amount: Some(
+                            49,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2024-04-05,
+                        date_end: Some(
+                            2024-04-05,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 49,
+                        end_amount: Some(
+                            49,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2024-04-06,
+                        date_end: Some(
+                            2024-04-06,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 49,
+                        end_amount: Some(
+                            49,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2024-04-07,
+                        date_end: Some(
+                            2024-04-07,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 49,
+                        end_amount: Some(
+                            49,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2024-04-08,
+                        date_end: Some(
+                            2024-04-08,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 49,
+                        end_amount: Some(
+                            49,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2024-04-09,
+                        date_end: Some(
+                            2024-04-09,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 49,
+                        end_amount: Some(
+                            49,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2024-04-10,
+                        date_end: Some(
+                            2024-04-10,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 49,
+                        end_amount: Some(
+                            49,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2024-04-11,
+                        date_end: Some(
+                            2024-04-11,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 49,
+                        end_amount: Some(
+                            49,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2024-04-12,
+                        date_end: Some(
+                            2024-04-12,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 49,
+                        end_amount: Some(
+                            49,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2024-04-13,
+                        date_end: Some(
+                            2024-04-13,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 49,
+                        end_amount: Some(
+                            49,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2024-04-14,
+                        date_end: Some(
+                            2024-04-14,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 49,
+                        end_amount: Some(
+                            49,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2024-04-15,
+                        date_end: Some(
+                            2024-04-15,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 49,
+                        end_amount: Some(
+                            49,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2024-04-16,
+                        date_end: Some(
+                            2024-04-16,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 49,
+                        end_amount: Some(
+                            49,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2024-04-17,
+                        date_end: Some(
+                            2024-04-17,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 49,
+                        end_amount: Some(
+                            49,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2024-04-18,
+                        date_end: Some(
+                            2024-04-18,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 49,
+                        end_amount: Some(
+                            49,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2024-04-19,
+                        date_end: Some(
+                            2024-04-19,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 49,
+                        end_amount: Some(
+                            49,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2024-04-20,
+                        date_end: Some(
+                            2024-04-20,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 49,
+                        end_amount: Some(
+                            49,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2024-04-21,
+                        date_end: Some(
+                            2024-04-21,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 49,
+                        end_amount: Some(
+                            49,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2024-04-22,
+                        date_end: Some(
+                            2024-04-22,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 49,
+                        end_amount: Some(
+                            49,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2024-04-23,
+                        date_end: Some(
+                            2024-04-23,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 49,
+                        end_amount: Some(
+                            49,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2024-04-24,
+                        date_end: Some(
+                            2024-04-24,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 49,
+                        end_amount: Some(
+                            49,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2024-04-25,
+                        date_end: Some(
+                            2024-04-25,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 49,
+                        end_amount: Some(
+                            49,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2024-04-26,
+                        date_end: Some(
+                            2024-04-26,
+                        ),
+                        total_income: Some(
+                            158654.52,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 49,
+                        end_amount: Some(
+                            158703.52,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2024-04-27,
+                        date_end: Some(
+                            2024-04-27,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            140000,
+                        ),
+                        start_amount: 158703.52,
+                        end_amount: Some(
+                            18703.52,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2024-04-28,
+                        date_end: Some(
+                            2024-04-28,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 18703.52,
+                        end_amount: Some(
+                            18703.52,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2024-04-29,
+                        date_end: Some(
+                            2024-04-29,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 18703.52,
+                        end_amount: Some(
+                            18703.52,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2024-04-30,
+                        date_end: Some(
+                            2024-04-30,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 18703.52,
+                        end_amount: Some(
+                            18703.52,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2024-05-01,
+                        date_end: Some(
+                            2024-05-01,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 18703.52,
+                        end_amount: Some(
+                            18703.52,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2024-05-02,
+                        date_end: Some(
+                            2024-05-02,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 18703.52,
+                        end_amount: Some(
+                            18703.52,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2024-05-03,
+                        date_end: Some(
+                            2024-05-03,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 18703.52,
+                        end_amount: Some(
+                            18703.52,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2024-05-04,
+                        date_end: Some(
+                            2024-05-04,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 18703.52,
+                        end_amount: Some(
+                            18703.52,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2024-05-05,
+                        date_end: Some(
+                            2024-05-05,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 18703.52,
+                        end_amount: Some(
+                            18703.52,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2024-05-06,
+                        date_end: Some(
+                            2024-05-06,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 18703.52,
+                        end_amount: Some(
+                            18703.52,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2024-05-07,
+                        date_end: Some(
+                            2024-05-07,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 18703.52,
+                        end_amount: Some(
+                            18703.52,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2024-05-08,
+                        date_end: Some(
+                            2024-05-08,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 18703.52,
+                        end_amount: Some(
+                            18703.52,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2024-05-09,
+                        date_end: Some(
+                            2024-05-09,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 18703.52,
+                        end_amount: Some(
+                            18703.52,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2024-05-10,
+                        date_end: Some(
+                            2024-05-10,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 18703.52,
+                        end_amount: Some(
+                            18703.52,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2024-05-11,
+                        date_end: Some(
+                            2024-05-11,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 18703.52,
+                        end_amount: Some(
+                            18703.52,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2024-05-12,
+                        date_end: Some(
+                            2024-05-12,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 18703.52,
+                        end_amount: Some(
+                            18703.52,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2024-05-13,
+                        date_end: Some(
+                            2024-05-13,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 18703.52,
+                        end_amount: Some(
+                            18703.52,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2024-05-14,
+                        date_end: Some(
+                            2024-05-14,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 18703.52,
+                        end_amount: Some(
+                            18703.52,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2024-05-15,
+                        date_end: Some(
+                            2024-05-15,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 18703.52,
+                        end_amount: Some(
+                            18703.52,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2024-05-16,
+                        date_end: Some(
+                            2024-05-16,
+                        ),
+                        total_income: Some(
+                            0,
+                        ),
+                        total_expense: Some(
+                            0,
+                        ),
+                        start_amount: 18703.52,
+                        end_amount: Some(
+                            18703.52,
+                        ),
+                    },
+                ],
+            },
+        },
+        documents: [
+            Document {
+                doc_number: "643",
+                doc_type: "Платежное поручение",
+                payment_type: Some(
+                    "01",
+                ),
+                doc_date: 2024-04-26,
+                purpose: "Оплата по договору",
+                ordering: Some(
+                    "5",
+                ),
+                amount: 158654.52,
+                counterparty_inn: "7800000001",
+                counterparty_kpp: Some(
+                    "5",
+                ),
+                counterparty_bic: "044030723",
+                counterparty_bank1: "Ф-Л \"СЕВЕРНАЯ СТОЛИЦА\" АО \"РАЙФФАЙЗЕНБАНК\", г.Санкт-Петербург",
+                counterparty_account: "40702000000000000049",
+                counterparty: Some(
+                    "Петров Петр Петрович",
+                ),
+                counterparty_1: None,
+                outcome_date: None,
+                counterparty_ras_account: Some(
+                    "40702000000000000049",
+                ),
+                counterparty_cor_account: Some(
+                    "30101000000000000050",
+                ),
+                payee_inn: "600000000004",
+                payee: Some(
+                    "Сидоров Сидор Сидорович",
+                ),
+                payee_account: "40802000000000000055",
+                payee_kpp: Some(
+                    "5",
+                ),
+                payee_bic: "044030653",
+                payee_bank1: "СЕВЕРО-ЗАПАДНЫЙ БАНК ПАО СБЕРБАНК, г.Санкт-Петербург",
+                payee_ras_account: Some(
+                    "40802000000000000055",
+                ),
+                payee_cor_account: Some(
+                    "30101000000000000053",
+                ),
+                income_date: Some(
+                    2024-04-26,
+                ),
+            },
+            Document {
+                doc_number: "1",
+                doc_type: "Платежное поручение",
+                payment_type: Some(
+                    "01",
+                ),
+                doc_date: 2024-04-27,
+                purpose: "Перевод средств",
+                ordering: Some(
+                    "5",
+                ),
+                amount: 140000,
+                counterparty_inn: "600000000004",
+                counterparty_kpp: Some(
+                    "5",
+                ),
+                counterparty_bic: "044030653",
+                counterparty_bank1: "СЕВЕРО-ЗАПАДНЫЙ БАНК ПАО СБЕРБАНК, г.Санкт-Петербург",
+                counterparty_account: "40802000000000000055",
+                counterparty: Some(
+                    "Петрова Галина Леонидовна",
+                ),
+                counterparty_1: None,
+                outcome_date: Some(
+                    2024-04-27,
+                ),
+                counterparty_ras_account: Some(
+                    "40802000000000000055",
+                ),
+                counterparty_cor_account: Some(
+                    "30101000000000000053",
+                ),
+                payee_inn: "5",
+                payee: Some(
+                    "Кузнецова Мария Сергеевна",
+                ),
+                payee_account: "40817000000000000057",
+                payee_kpp: Some(
+                    "5",
+                ),
+                payee_bic: "044030653",
+                payee_bank1: "СЕВЕРО-ЗАПАДНЫЙ БАНК ПАО СБЕРБАНК, г.Санкт-Петербург",
+                payee_ras_account: Some(
+                    "40817000000000000057",
+                ),
+                payee_cor_account: Some(
+                    "30101000000000000053",
+                ),
+                income_date: None,
+            },
+        ],
+        warnings: [],
+    },
+)

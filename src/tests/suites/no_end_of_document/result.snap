@@ -1,0 +1,9 @@
+---
+source: src/tests/run_suites.rs
+---
+Err(
+    Syntax {
+        lineno: 46,
+        text: "Неожиданная секция 'КонецФайла' на этапе разбора документа",
+    },
+)
