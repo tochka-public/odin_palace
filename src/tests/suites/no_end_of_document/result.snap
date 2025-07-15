@@ -2,8 +2,13 @@
 source: src/tests/run_suites.rs
 ---
 Err(
-    Syntax {
-        lineno: 46,
-        text: "Неожиданная секция 'КонецФайла' на этапе разбора документа",
-    },
+    Syntax(
+        ParserError {
+            lineno: 46,
+            kind: UnexpectedSection {
+                found: "КонецФайла",
+                context: Document,
+            },
+        },
+    ),
 )
