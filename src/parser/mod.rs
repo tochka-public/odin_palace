@@ -162,7 +162,11 @@ impl Statement {
         self.documents.push(doc);
         Ok(())
     }
-    fn add_account(&mut self, attrs: IndexMap<String, String>) -> Result<(), String> {
+    fn add_account(
+        &mut self,
+        attrs: IndexMap<String, String>,
+        lineno: usize,
+    ) -> Result<(), ParserError> {
         let value_map = &attrs;
         let value = serde_json::Value::Object(
             value_map
@@ -170,11 +174,19 @@ impl Statement {
                 .map(|(k, v)| (k.clone(), serde_json::Value::String(v.clone())))
                 .collect(),
         );
-        let interval: Interval = serde_json::from_value(value)
-            .map_err(|e| format!("Ошибка разбора интервала счёта: {e}"))?;
+        let interval: Interval = serde_json::from_value(value).map_err(|e| ParserError {
+            lineno,
+            kind: ParserErrorKind::AccountParseError(e.to_string()),
+        })?;
         let number = value_map
             .get("РасчСчет")
-            .ok_or_else(|| "Нет поля РасчСчет в секции счёта".to_string())?
+            .ok_or_else(|| ParserError {
+                lineno,
+                kind: ParserErrorKind::MissingField {
+                    field: "РасчСчет".to_string(),
+                    context: SectionContext::Account,
+                },
+            })?
             .to_string();
         let key = number.clone();
         match self.accounts.get_mut(&key) {
@@ -207,11 +219,49 @@ impl Statement {
 
 #[derive(Debug)]
 pub enum Error {
-    Syntax { lineno: usize, text: String },
+    Syntax(ParserError),
     InvalidDocument,
     Unfinished,
-    NotText,
+    Not1CStatement,
     Empty,
+}
+
+#[derive(Debug, Clone)]
+pub enum SectionContext {
+    Header,
+    Document,
+    Account,
+    Finished,
+    Init,
+    ReadNextSection,
+}
+
+#[derive(Debug, Clone)]
+pub enum ParserErrorKind {
+    UnexpectedSection {
+        found: String,
+        context: SectionContext,
+    },
+    UnexpectedAttribute {
+        key: String,
+        value: String,
+    },
+    UnrecognizedLine {
+        line: String,
+    },
+    MissingField {
+        field: String,
+        context: SectionContext,
+    },
+    AccountParseError(String),
+    DocumentParseError(String),
+    HookError(String),
+}
+
+#[derive(Debug, Clone)]
+pub struct ParserError {
+    pub lineno: usize,
+    pub kind: ParserErrorKind,
 }
 
 #[derive(Clone, Copy, Debug)]
@@ -252,10 +302,10 @@ impl Default for Parser {
 
 impl Parser {
     pub fn parse(&self, content: &[u8]) -> Result<Statement, Error> {
-        let (raw, encoding) = parse_text(content).ok_or(Error::NotText)?;
+        let (raw, encoding) = parse_text(content).ok_or(Error::Not1CStatement)?;
         match self.parse_internal(&raw, encoding)? {
             ControlFlow::Continue(State::Finished(statement)) => Ok(statement),
-            ControlFlow::Break((lineno, text)) => Err(Error::Syntax { lineno, text }),
+            ControlFlow::Break(err) => Err(Error::Syntax(err)),
             ControlFlow::Continue(_) => Err(Error::Unfinished),
         }
     }
@@ -276,7 +326,7 @@ impl Parser {
         &self,
         raw: &'a Cow<'a, str>,
         encoding: Encoding,
-    ) -> Result<ControlFlow<(usize, String), State<'a>>, Error> {
+    ) -> Result<ControlFlow<ParserError, State<'a>>, Error> {
         Ok(parse_lines(raw)?
             .into_iter()
             .try_fold(State::Init, |state, (lineno, line)| {
@@ -343,10 +393,10 @@ impl Parser {
                                         prev_section,
                                     })
                                 }
-                                Err(AddDocError::Critical(e)) => ControlFlow::Break((
+                                Err(AddDocError::Critical(e)) => ControlFlow::Break(ParserError {
                                     lineno,
-                                    format!("Ошибка разбора документа: {e:?}"),
-                                )),
+                                    kind: ParserErrorKind::DocumentParseError(e),
+                                }),
                             },
                             Err(HookError::Warning(warn)) => {
                                 statement.add_warning((lineno, warn));
@@ -355,7 +405,10 @@ impl Parser {
                                     prev_section,
                                 })
                             }
-                            Err(HookError::Error(err)) => ControlFlow::Break((lineno, err)),
+                            Err(HookError::Error(err)) => ControlFlow::Break(ParserError {
+                                lineno,
+                                kind: ParserErrorKind::HookError(err),
+                            }),
                         }
                     }
                     // Чтение счёта
@@ -379,13 +432,13 @@ impl Parser {
                         let section_type = SectionType::Account;
                         match self.call_hooks(section_type, &mut attrs, &statement) {
                             Ok(()) => {
-                                let res = statement.add_account(attrs);
+                                let res = statement.add_account(attrs, lineno);
                                 match res {
                                     Ok(()) => ControlFlow::Continue(State::ReadNextSection {
                                         statement,
                                         prev_section,
                                     }),
-                                    Err(e) => ControlFlow::Break((lineno, e)),
+                                    Err(err) => ControlFlow::Break(err),
                                 }
                             }
                             Err(HookError::Warning(warn)) => {
@@ -395,7 +448,10 @@ impl Parser {
                                     prev_section,
                                 })
                             }
-                            Err(HookError::Error(err)) => ControlFlow::Break((lineno, err)),
+                            Err(HookError::Error(err)) => ControlFlow::Break(ParserError {
+                                lineno,
+                                kind: ParserErrorKind::HookError(err),
+                            }),
                         }
                     }
                     // Секции документа и счёта заканчиваются соотвествующими секциями: КонецДокумента и КонецРасчСчет
@@ -418,44 +474,76 @@ impl Parser {
                         State::ReadNextSection { statement, .. },
                         Line::Section(Section::EndOfFile),
                     ) => ControlFlow::Continue(State::Finished(statement)),
-                    (State::ReadNextSection { prev_section, .. }, Line::Section(s)) => {
-                        ControlFlow::Break((
+                    (
+                        State::ReadNextSection {
+                            prev_section: _, ..
+                        },
+                        Line::Section(s),
+                    ) => ControlFlow::Break(ParserError {
+                        lineno,
+                        kind: ParserErrorKind::UnexpectedSection {
+                            found: s.to_string(),
+                            context: SectionContext::ReadNextSection,
+                        },
+                    }),
+                    (State::ReadNextSection { .. }, Line::Attr(k, v)) => {
+                        ControlFlow::Break(ParserError {
                             lineno,
-                            format!("Неожиданная секция '{s}' после '{prev_section}'"),
-                        ))
+                            kind: ParserErrorKind::UnexpectedAttribute {
+                                key: k.to_string(),
+                                value: v.to_string(),
+                            },
+                        })
                     }
-                    (State::ReadNextSection { .. }, Line::Attr(k, v)) => ControlFlow::Break((
+                    (State::Init, Line::Attr(k, v)) => ControlFlow::Break(ParserError {
                         lineno,
-                        format!("Атрибут '{k}={v}' не принадлежит ни одной секции"),
-                    )),
-                    (State::Init, Line::Attr(k, v)) => ControlFlow::Break((
+                        kind: ParserErrorKind::UnexpectedAttribute {
+                            key: k.to_string(),
+                            value: v.to_string(),
+                        },
+                    }),
+                    (State::Init, Line::Section(s)) => ControlFlow::Break(ParserError {
                         lineno,
-                        format!("Неожиданный атрибут '{k}={v}' до секции 1CClientBankExchange"),
-                    )),
-                    (State::Init, Line::Section(s)) => ControlFlow::Break((
+                        kind: ParserErrorKind::UnexpectedSection {
+                            found: s.to_string(),
+                            context: SectionContext::Init,
+                        },
+                    }),
+                    (State::Header(_), Line::Section(s)) => ControlFlow::Break(ParserError {
                         lineno,
-                        format!("Неожиданная секция '{s}' до секции 1CClientBankExchange"),
-                    )),
-                    (State::Header(_), Line::Section(s)) => ControlFlow::Break((
+                        kind: ParserErrorKind::UnexpectedSection {
+                            found: s.to_string(),
+                            context: SectionContext::Header,
+                        },
+                    }),
+                    (State::Document { .. }, Line::Section(s)) => ControlFlow::Break(ParserError {
                         lineno,
-                        format!("Неожиданная секция '{s}' на этапе разбора заголовков"),
-                    )),
-                    (State::Document { .. }, Line::Section(s)) => ControlFlow::Break((
+                        kind: ParserErrorKind::UnexpectedSection {
+                            found: s.to_string(),
+                            context: SectionContext::Document,
+                        },
+                    }),
+                    (State::Account { .. }, Line::Section(s)) => ControlFlow::Break(ParserError {
                         lineno,
-                        format!("Неожиданная секция '{s}' на этапе разбора документа"),
-                    )),
-                    (State::Account { .. }, Line::Section(s)) => ControlFlow::Break((
+                        kind: ParserErrorKind::UnexpectedSection {
+                            found: s.to_string(),
+                            context: SectionContext::Account,
+                        },
+                    }),
+                    (State::Finished(_), Line::Attr(k, v)) => ControlFlow::Break(ParserError {
                         lineno,
-                        format!("Неожиданная секция '{s}' на этапе разбора счёта"),
-                    )),
-                    (State::Finished(_), Line::Attr(k, v)) => ControlFlow::Break((
+                        kind: ParserErrorKind::UnexpectedAttribute {
+                            key: k.to_string(),
+                            value: v.to_string(),
+                        },
+                    }),
+                    (State::Finished(_), Line::Section(s)) => ControlFlow::Break(ParserError {
                         lineno,
-                        format!("Неожиданный атрибут '{k}={v}' после секции КонецФайла"),
-                    )),
-                    (State::Finished(_), Line::Section(s)) => ControlFlow::Break((
-                        lineno,
-                        format!("Неожиданная секция '{s}' после секции КонецФайла"),
-                    )),
+                        kind: ParserErrorKind::UnexpectedSection {
+                            found: s.to_string(),
+                            context: SectionContext::Finished,
+                        },
+                    }),
                 }
             }))
     }
@@ -472,9 +560,13 @@ fn parse_lines(raw: &str) -> Result<Vec<(usize, Line<'_>)>, Error> {
                 .map_err(|e| (lineno, e))
         })
         .collect::<Result<Vec<_>, _>>()
-        .map_err(|(lineno, e)| Error::Syntax {
-            lineno,
-            text: format!("cannot parse line: '{e}'"),
+        .map_err(|(lineno, e)| {
+            Error::Syntax(ParserError {
+                lineno,
+                kind: ParserErrorKind::UnrecognizedLine {
+                    line: e.to_string(),
+                },
+            })
         })
 }
 
@@ -592,6 +684,10 @@ enum AddDocError {
     Critical(String),
 }
 
+fn is_1c_header_line(line: &str) -> bool {
+    line.len() <= 64 && line == "1CClientBankExchange"
+}
+
 fn parse_as_cp1251(v: &[u8]) -> Option<Cow<'_, str>> {
     let (cow, _, had_errors) = WINDOWS_1251.decode(v);
     if had_errors {
@@ -621,9 +717,17 @@ fn parse_as_utf8(v: &[u8]) -> Option<&str> {
 
 fn parse_text(content: &[u8]) -> Option<(Cow<'_, str>, Encoding)> {
     if let Some(s) = parse_as_utf8(content) {
+        let first_line = s.lines().next().unwrap_or("");
+        if !is_1c_header_line(first_line) {
+            return None;
+        }
         return Some((Cow::Borrowed(s), Encoding::Utf8));
     }
     if let Some(cow) = parse_as_cp1251(content) {
+        let first_line = cow.lines().next().unwrap_or("");
+        if !is_1c_header_line(first_line) {
+            return None;
+        }
         return Some((cow, Encoding::Cp1251));
     }
     None

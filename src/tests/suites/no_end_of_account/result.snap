@@ -2,8 +2,13 @@
 source: src/tests/run_suites.rs
 ---
 Err(
-    Syntax {
-        lineno: 20,
-        text: "Неожиданная секция 'СекцияДокумент=Банковский ордер' на этапе разбора счёта",
-    },
+    Syntax(
+        ParserError {
+            lineno: 20,
+            kind: UnexpectedSection {
+                found: "СекцияДокумент=Банковский ордер",
+                context: Account,
+            },
+        },
+    ),
 )
