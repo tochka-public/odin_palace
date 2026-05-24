@@ -2,19 +2,29 @@
 name = "odin_palace"
 version = "0.1.0"
 edition = "2024"
+rust-version = "1.85"
+description = "Parser and analyzer for bank statements in the 1CClientBankExchange format"
+license = "MIT"
+repository = "https://github.com/tochka-public/odin_palace"
+homepage = "https://github.com/tochka-public/odin_palace"
+documentation = "https://docs.rs/odin_palace"
+readme = "README.md"
+keywords = ["1c", "bank", "statement", "parser", "finance"]
+categories = ["parser-implementations", "command-line-utilities", "finance"]
+exclude = ["src/tests/suites/**", "benches/**"]
 
 [dependencies]
-chrono = { version = "0.4.41", features = ["serde"], default-features = false }
-clap = { version = "^4.5", features = ["derive"] }
+chrono = { version = "0.4", features = ["serde"], default-features = false }
+clap = { version = "4", features = ["derive"] }
 encoding_rs = "0.8"
-indexmap = "2.9.0"
-rust_decimal = "1.37.1"
-serde = { version = "1.0.219", features = ["derive"] }
-serde_json = "1.0.140"
+indexmap = "2"
+rust_decimal = "1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
 
 [dev-dependencies]
-insta = "1.43"
-rstest = "0.25.0"
+insta = "1"
+rstest = "0.25"
 criterion = { version = "0.5", features = ["html_reports"] }
 
 [[bench]]
