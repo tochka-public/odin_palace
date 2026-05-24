@@ -11,7 +11,12 @@ documentation = "https://docs.rs/odin_palace"
 readme = "README.md"
 keywords = ["1c", "bank", "statement", "parser", "finance"]
 categories = ["parser-implementations", "command-line-utilities", "finance"]
-exclude = ["src/tests/suites/**", "benches/**"]
+exclude = [
+    "src/tests/suites/**",
+    "benches/**",
+    "release-please-config.json",
+    ".release-please-manifest.json",
+]
 
 [dependencies]
 chrono = { version = "0.4", features = ["serde"], default-features = false }
