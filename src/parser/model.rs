@@ -5,6 +5,7 @@ use indexmap::IndexMap;
 use rust_decimal::Decimal;
 use serde::Deserialize;
 
+use super::attrs::SectionAttrs;
 use super::de;
 use super::de::{deserialize_dt, try_deserialize_dt};
 use super::encoding::Encoding;
@@ -259,7 +260,22 @@ impl Statement {
         self.warnings.push(e);
     }
 
+    /// Горячий путь без хуков: атрибуты — срезы входного текста, владеющие
+    /// строки аллоцирует только десериализация потреблённых полей.
     pub(super) fn add_document(
+        &mut self,
+        typ: &str,
+        attrs: &SectionAttrs<'_>,
+    ) -> Result<(), AddDocError> {
+        let doc: Document =
+            de::from_borrowed_attrs(attrs.iter().chain(std::iter::once(("СекцияДокумент", typ))))
+                .map_err(|e| AddDocError::Warning(e.to_string()))?;
+        self.documents.push(doc);
+        Ok(())
+    }
+
+    /// Путь после хуков: атрибуты уже во владеющей карте контракта хуков.
+    pub(super) fn add_document_owned(
         &mut self,
         typ: &str,
         attrs: IndexMap<String, String>,
@@ -272,25 +288,40 @@ impl Statement {
         Ok(())
     }
 
+    /// Горячий путь без хуков: атрибуты — срезы входного текста, владеющие
+    /// строки аллоцирует только десериализация потреблённых полей.
     pub(super) fn add_account(
+        &mut self,
+        attrs: &mut SectionAttrs<'_>,
+        lineno: usize,
+    ) -> Result<(), ParserError> {
+        let interval: Interval =
+            de::from_borrowed_attrs(attrs.iter()).map_err(|e| account_parse_error(lineno, &e))?;
+        let number = attrs
+            .remove("РасчСчет")
+            .ok_or_else(|| missing_account_number(lineno))?
+            .to_string();
+        self.insert_interval(number, interval);
+        Ok(())
+    }
+
+    /// Путь после хуков: атрибуты уже во владеющей карте контракта хуков.
+    pub(super) fn add_account_owned(
         &mut self,
         mut attrs: IndexMap<String, String>,
         lineno: usize,
     ) -> Result<(), ParserError> {
-        let interval: Interval = de::from_borrowed_attrs(
-            attrs.iter().map(|(k, v)| (k.as_str(), v.as_str())),
-        )
-        .map_err(|e| ParserError {
-            lineno,
-            kind: ParserErrorKind::AccountParseError(e.to_string()),
-        })?;
-        let number = attrs.shift_remove("РасчСчет").ok_or_else(|| ParserError {
-            lineno,
-            kind: ParserErrorKind::MissingField {
-                field: "РасчСчет".to_string(),
-                context: SectionContext::Account,
-            },
-        })?;
+        let interval: Interval =
+            de::from_borrowed_attrs(attrs.iter().map(|(k, v)| (k.as_str(), v.as_str())))
+                .map_err(|e| account_parse_error(lineno, &e))?;
+        let number = attrs
+            .shift_remove("РасчСчет")
+            .ok_or_else(|| missing_account_number(lineno))?;
+        self.insert_interval(number, interval);
+        Ok(())
+    }
+
+    fn insert_interval(&mut self, number: String, interval: Interval) {
         match self.accounts.get_mut(&number) {
             Some(account) => {
                 // Интервалы отсортированы по дате начала, поэтому дубликат может
@@ -326,7 +357,23 @@ impl Statement {
                 );
             }
         }
-        Ok(())
+    }
+}
+
+fn account_parse_error(lineno: usize, e: &impl std::fmt::Display) -> ParserError {
+    ParserError {
+        lineno,
+        kind: ParserErrorKind::AccountParseError(e.to_string()),
+    }
+}
+
+fn missing_account_number(lineno: usize) -> ParserError {
+    ParserError {
+        lineno,
+        kind: ParserErrorKind::MissingField {
+            field: "РасчСчет".to_string(),
+            context: SectionContext::Account,
+        },
     }
 }
 

@@ -4,6 +4,7 @@ use std::ops::ControlFlow;
 
 use indexmap::IndexMap;
 
+use super::attrs::SectionAttrs;
 use super::encoding::{Encoding, parse_text};
 use super::error::{Error, ParserError, ParserErrorKind, SectionContext};
 use super::hooks::{HookError, SectionHook, SectionType};
@@ -142,14 +143,14 @@ impl Parser {
                 ControlFlow::Continue(State::Document {
                     statement: Statement::new(encoding, attrs),
                     typ,
-                    attrs: IndexMap::new(),
+                    attrs: SectionAttrs::new(),
                 })
             }
             // Либо СекцияРасчСчет
             (State::Header(attrs), Line::Section(Section::Account)) => {
                 ControlFlow::Continue(State::Account {
                     statement: Statement::new(encoding, attrs),
-                    attrs: IndexMap::new(),
+                    attrs: SectionAttrs::new(),
                 })
             }
             // Чтение документа
@@ -161,7 +162,7 @@ impl Parser {
                 },
                 Line::Attr(k, v),
             ) => {
-                attrs.insert(k.to_string(), v.to_string());
+                attrs.insert(k, v);
                 ControlFlow::Continue(State::Document {
                     statement,
                     typ,
@@ -184,7 +185,7 @@ impl Parser {
                 },
                 Line::Attr(k, v),
             ) => {
-                attrs.insert(k.to_string(), v.to_string());
+                attrs.insert(k, v);
                 ControlFlow::Continue(State::Account { statement, attrs })
             }
             (State::Account { attrs, statement }, Line::Section(Section::EndOfAccount)) => {
@@ -195,14 +196,14 @@ impl Parser {
             (State::ReadNextSection { statement }, Line::Section(Section::Account)) => {
                 ControlFlow::Continue(State::Account {
                     statement,
-                    attrs: IndexMap::new(),
+                    attrs: SectionAttrs::new(),
                 })
             }
             (State::ReadNextSection { statement }, Line::Section(Section::Document(typ))) => {
                 ControlFlow::Continue(State::Document {
                     statement,
                     typ,
-                    attrs: IndexMap::new(),
+                    attrs: SectionAttrs::new(),
                 })
             }
             (State::ReadNextSection { statement }, Line::Section(Section::EndOfFile)) => {
@@ -238,11 +239,22 @@ impl Parser {
         &self,
         mut statement: Statement,
         typ: &'a str,
-        mut attrs: IndexMap<String, String>,
+        attrs: SectionAttrs<'a>,
         lineno: usize,
     ) -> ControlFlow<ParserError, State<'a>> {
+        // Горячий путь: без хуков атрибуты не покидают заимствованную форму.
+        if self.section_hooks.is_empty() {
+            match statement.add_document(typ, &attrs) {
+                Ok(()) => return ControlFlow::Continue(State::ReadNextSection { statement }),
+                Err(AddDocError::Warning(e)) => {
+                    statement.add_warning((lineno, e));
+                    return ControlFlow::Continue(State::ReadNextSection { statement });
+                }
+            }
+        }
+        let mut attrs = attrs.into_index_map();
         match self.call_hooks(SectionType::Document, &mut attrs, &statement) {
-            Ok(()) => match statement.add_document(typ, attrs) {
+            Ok(()) => match statement.add_document_owned(typ, attrs) {
                 Ok(()) => ControlFlow::Continue(State::ReadNextSection { statement }),
                 Err(AddDocError::Warning(e)) => {
                     statement.add_warning((lineno, e));
@@ -263,11 +275,20 @@ impl Parser {
     fn finish_account<'a>(
         &self,
         mut statement: Statement,
-        mut attrs: IndexMap<String, String>,
+        attrs: SectionAttrs<'a>,
         lineno: usize,
     ) -> ControlFlow<ParserError, State<'a>> {
+        // Горячий путь: без хуков атрибуты не покидают заимствованную форму.
+        if self.section_hooks.is_empty() {
+            let mut attrs = attrs;
+            return match statement.add_account(&mut attrs, lineno) {
+                Ok(()) => ControlFlow::Continue(State::ReadNextSection { statement }),
+                Err(err) => ControlFlow::Break(err),
+            };
+        }
+        let mut attrs = attrs.into_index_map();
         match self.call_hooks(SectionType::Account, &mut attrs, &statement) {
-            Ok(()) => match statement.add_account(attrs, lineno) {
+            Ok(()) => match statement.add_account_owned(attrs, lineno) {
                 Ok(()) => ControlFlow::Continue(State::ReadNextSection { statement }),
                 Err(err) => ControlFlow::Break(err),
             },
@@ -314,11 +335,11 @@ enum State<'a> {
     Document {
         statement: Statement,
         typ: &'a str,
-        attrs: IndexMap<String, String>,
+        attrs: SectionAttrs<'a>,
     },
     Account {
         statement: Statement,
-        attrs: IndexMap<String, String>,
+        attrs: SectionAttrs<'a>,
     },
     ReadNextSection {
         statement: Statement,

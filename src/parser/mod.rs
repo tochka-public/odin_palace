@@ -12,6 +12,7 @@
 
 pub mod hooks;
 
+mod attrs;
 mod de;
 mod encoding;
 mod error;
