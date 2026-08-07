@@ -82,6 +82,59 @@ Ok(
                 ),
                 payee_cor_account: None,
                 income_date: None,
+                counterparty_2: None,
+                counterparty_3: None,
+                counterparty_4: Some(
+                    "",
+                ),
+                counterparty_bank2: None,
+                payee_1: Some(
+                    "Сидоров Сидор Сидорович",
+                ),
+                payee_2: None,
+                payee_3: None,
+                payee_4: None,
+                payee_bank2: None,
+                payment_kind: Some(
+                    "",
+                ),
+                payment_deadline: None,
+                uin: Some(
+                    "",
+                ),
+                purpose_code: Some(
+                    "",
+                ),
+                purpose_1: None,
+                purpose_2: None,
+                purpose_3: None,
+                purpose_4: None,
+                purpose_5: None,
+                purpose_6: None,
+                compiler_status: Some(
+                    "",
+                ),
+                kbk: Some(
+                    "",
+                ),
+                okato: Some(
+                    "",
+                ),
+                tax_basis: Some(
+                    "",
+                ),
+                tax_period: Some(
+                    "",
+                ),
+                tax_number: Some(
+                    "",
+                ),
+                tax_date: Some(
+                    "",
+                ),
+                tax_type: Some(
+                    "",
+                ),
             },
             Document {
                 doc_number: "FDC240",
@@ -127,6 +180,59 @@ Ok(
                 payee_cor_account: None,
                 income_date: Some(
                     2024-02-29,
+                ),
+                counterparty_2: None,
+                counterparty_3: None,
+                counterparty_4: Some(
+                    "",
+                ),
+                counterparty_bank2: None,
+                payee_1: Some(
+                    "Кузнецова Мария Сергеевна",
+                ),
+                payee_2: None,
+                payee_3: None,
+                payee_4: None,
+                payee_bank2: None,
+                payment_kind: Some(
+                    "",
+                ),
+                payment_deadline: None,
+                uin: Some(
+                    "",
+                ),
+                purpose_code: Some(
+                    "",
+                ),
+                purpose_1: None,
+                purpose_2: None,
+                purpose_3: None,
+                purpose_4: None,
+                purpose_5: None,
+                purpose_6: None,
+                compiler_status: Some(
+                    "",
+                ),
+                kbk: Some(
+                    "",
+                ),
+                okato: Some(
+                    "",
+                ),
+                tax_basis: Some(
+                    "",
+                ),
+                tax_period: Some(
+                    "",
+                ),
+                tax_number: Some(
+                    "",
+                ),
+                tax_date: Some(
+                    "",
+                ),
+                tax_type: Some(
+                    "",
                 ),
             },
         ],

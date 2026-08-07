@@ -808,6 +808,53 @@ Ok(
                 income_date: Some(
                     2024-04-26,
                 ),
+                counterparty_2: None,
+                counterparty_3: None,
+                counterparty_4: None,
+                counterparty_bank2: None,
+                payee_1: None,
+                payee_2: None,
+                payee_3: None,
+                payee_4: None,
+                payee_bank2: None,
+                payment_kind: Some(
+                    "электронно",
+                ),
+                payment_deadline: None,
+                uin: Some(
+                    "0",
+                ),
+                purpose_code: None,
+                purpose_1: None,
+                purpose_2: None,
+                purpose_3: None,
+                purpose_4: None,
+                purpose_5: None,
+                purpose_6: None,
+                compiler_status: Some(
+                    "",
+                ),
+                kbk: Some(
+                    "",
+                ),
+                okato: Some(
+                    "",
+                ),
+                tax_basis: Some(
+                    "",
+                ),
+                tax_period: Some(
+                    "",
+                ),
+                tax_number: Some(
+                    "",
+                ),
+                tax_date: Some(
+                    "",
+                ),
+                tax_type: Some(
+                    "",
+                ),
             },
             Document {
                 doc_number: "1",
@@ -858,6 +905,53 @@ Ok(
                     "30101000000000000053",
                 ),
                 income_date: None,
+                counterparty_2: None,
+                counterparty_3: None,
+                counterparty_4: None,
+                counterparty_bank2: None,
+                payee_1: None,
+                payee_2: None,
+                payee_3: None,
+                payee_4: None,
+                payee_bank2: None,
+                payment_kind: Some(
+                    "электронно",
+                ),
+                payment_deadline: None,
+                uin: Some(
+                    "",
+                ),
+                purpose_code: None,
+                purpose_1: None,
+                purpose_2: None,
+                purpose_3: None,
+                purpose_4: None,
+                purpose_5: None,
+                purpose_6: None,
+                compiler_status: Some(
+                    "",
+                ),
+                kbk: Some(
+                    "",
+                ),
+                okato: Some(
+                    "",
+                ),
+                tax_basis: Some(
+                    "",
+                ),
+                tax_period: Some(
+                    "",
+                ),
+                tax_number: Some(
+                    "",
+                ),
+                tax_date: Some(
+                    "",
+                ),
+                tax_type: Some(
+                    "",
+                ),
             },
         ],
         warnings: [],

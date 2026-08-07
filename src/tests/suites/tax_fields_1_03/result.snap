@@ -1,0 +1,165 @@
+---
+source: src/tests/run_suites.rs
+---
+Ok(
+    Statement {
+        encoding: Utf8,
+        header: {
+            "ВерсияФормата": "1.03",
+            "Кодировка": "Windows",
+            "Отправитель": "Банк",
+            "ДатаНачала": "01.06.2024",
+            "ДатаКонца": "30.06.2024",
+            "РасчСчет": "40702810000000000111",
+        },
+        accounts: {
+            "40702810000000000111": Account {
+                number: "40702810000000000111",
+                intervals: [
+                    Interval {
+                        date_start: 2024-06-01,
+                        date_end: Some(
+                            2024-06-30,
+                        ),
+                        total_income: Some(
+                            500.00,
+                        ),
+                        total_expense: Some(
+                            200.00,
+                        ),
+                        start_amount: 1000.00,
+                        end_amount: Some(
+                            1300.00,
+                        ),
+                    },
+                ],
+            },
+        },
+        documents: [
+            Document {
+                doc_number: "77",
+                doc_type: "Платежное поручение",
+                payment_type: Some(
+                    "01",
+                ),
+                doc_date: 2024-06-15,
+                purpose: "Единый налоговый платеж",
+                ordering: Some(
+                    "5",
+                ),
+                amount: 200.00,
+                counterparty_inn: "7707083893",
+                counterparty_kpp: Some(
+                    "770701001",
+                ),
+                counterparty_bic: "044525225",
+                counterparty_bank1: "ПАО БАНК",
+                counterparty_account: "40702810000000000111",
+                counterparty: Some(
+                    "ООО Ромашка",
+                ),
+                counterparty_1: Some(
+                    "ООО Ромашка",
+                ),
+                outcome_date: Some(
+                    2024-06-15,
+                ),
+                counterparty_ras_account: Some(
+                    "40702810000000000111",
+                ),
+                counterparty_cor_account: Some(
+                    "30101810400000000225",
+                ),
+                payee_inn: "7727406020",
+                payee: Some(
+                    "Казначейство России (ФНС России)",
+                ),
+                payee_account: "03100643000000017300",
+                payee_kpp: Some(
+                    "770801001",
+                ),
+                payee_bic: "017003983",
+                payee_bank1: "ОТДЕЛЕНИЕ ТУЛА БАНКА РОССИИ",
+                payee_ras_account: Some(
+                    "03100643000000017300",
+                ),
+                payee_cor_account: Some(
+                    "40102810445370000059",
+                ),
+                income_date: None,
+                counterparty_2: Some(
+                    "40702810000000000111",
+                ),
+                counterparty_3: Some(
+                    "дополнительная строка 3",
+                ),
+                counterparty_4: Some(
+                    "дополнительная строка 4",
+                ),
+                counterparty_bank2: Some(
+                    "Г. МОСКВА",
+                ),
+                payee_1: Some(
+                    "Казначейство России (ФНС России)",
+                ),
+                payee_2: Some(
+                    "03100643000000017300",
+                ),
+                payee_3: Some(
+                    "строка 3 получателя",
+                ),
+                payee_4: Some(
+                    "строка 4 получателя",
+                ),
+                payee_bank2: Some(
+                    "Г. ТУЛА",
+                ),
+                payment_kind: Some(
+                    "Электронно",
+                ),
+                payment_deadline: Some(
+                    "20.06.2024",
+                ),
+                uin: Some(
+                    "18209965144380388511",
+                ),
+                purpose_code: Some(
+                    "1",
+                ),
+                purpose_1: Some(
+                    "Единый налоговый платеж",
+                ),
+                purpose_2: None,
+                purpose_3: None,
+                purpose_4: None,
+                purpose_5: None,
+                purpose_6: None,
+                compiler_status: Some(
+                    "01",
+                ),
+                kbk: Some(
+                    "18201061201010000510",
+                ),
+                okato: Some(
+                    "0",
+                ),
+                tax_basis: Some(
+                    "0",
+                ),
+                tax_period: Some(
+                    "0",
+                ),
+                tax_number: Some(
+                    "0",
+                ),
+                tax_date: Some(
+                    "0",
+                ),
+                tax_type: Some(
+                    "0",
+                ),
+            },
+        ],
+        warnings: [],
+    },
+)
