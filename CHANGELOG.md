@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/tochka-public/odin_palace/compare/v0.2.0...v0.2.1) (2026-08-07)
+
+
+### Performance Improvements
+
+* **parser:** accumulate section attributes as borrowed slices ([5052c9b](https://github.com/tochka-public/odin_palace/commit/5052c9b00316c12061b9c6cf365280e604b0166d))
+
 ## [0.2.0](https://github.com/tochka-public/odin_palace/compare/v0.1.0...v0.2.0) (2026-08-07)
 
 
