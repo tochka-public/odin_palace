@@ -2,8 +2,8 @@
 #![deny(clippy::perf)]
 
 mod anonymizer;
-mod parser;
 use clap::{Parser as ClapParser, Subcommand};
+use odin_palace::parser;
 use std::fs;
 use std::io::{self, Write};
 

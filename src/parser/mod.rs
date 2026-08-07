@@ -1,4 +1,3 @@
-#![allow(dead_code)]
 use chrono::NaiveDate;
 use encoding_rs::WINDOWS_1251;
 use hooks::{HookError, SectionHook, SectionType};
@@ -302,6 +301,9 @@ impl Default for Parser {
 
 impl Parser {
     pub fn parse(&self, content: &[u8]) -> Result<Statement, Error> {
+        if content.iter().all(u8::is_ascii_whitespace) {
+            return Err(Error::Empty);
+        }
         let (raw, encoding) = parse_text(content).ok_or(Error::Not1CStatement)?;
         match self.parse_internal(&raw, encoding)? {
             ControlFlow::Continue(State::Finished(statement)) => Ok(statement),
@@ -377,33 +379,22 @@ impl Parser {
                             typ,
                             mut attrs,
                         },
-                        Line::Section(prev_section @ Section::EndOfDocument),
+                        Line::Section(Section::EndOfDocument),
                     ) => {
                         let section_type = SectionType::Document;
                         match self.call_hooks(section_type, &mut attrs, &statement) {
                             Ok(()) => match statement.add_document(typ, attrs) {
-                                Ok(()) => ControlFlow::Continue(State::ReadNextSection {
-                                    statement,
-                                    prev_section,
-                                }),
+                                Ok(()) => {
+                                    ControlFlow::Continue(State::ReadNextSection { statement })
+                                }
                                 Err(AddDocError::Warning(e)) => {
                                     statement.add_warning((lineno, e));
-                                    ControlFlow::Continue(State::ReadNextSection {
-                                        statement,
-                                        prev_section,
-                                    })
+                                    ControlFlow::Continue(State::ReadNextSection { statement })
                                 }
-                                Err(AddDocError::Critical(e)) => ControlFlow::Break(ParserError {
-                                    lineno,
-                                    kind: ParserErrorKind::DocumentParseError(e),
-                                }),
                             },
                             Err(HookError::Warning(warn)) => {
                                 statement.add_warning((lineno, warn));
-                                ControlFlow::Continue(State::ReadNextSection {
-                                    statement,
-                                    prev_section,
-                                })
+                                ControlFlow::Continue(State::ReadNextSection { statement })
                             }
                             Err(HookError::Error(err)) => ControlFlow::Break(ParserError {
                                 lineno,
@@ -427,26 +418,22 @@ impl Parser {
                             mut attrs,
                             mut statement,
                         },
-                        Line::Section(prev_section @ Section::EndOfAccount),
+                        Line::Section(Section::EndOfAccount),
                     ) => {
                         let section_type = SectionType::Account;
                         match self.call_hooks(section_type, &mut attrs, &statement) {
                             Ok(()) => {
                                 let res = statement.add_account(attrs, lineno);
                                 match res {
-                                    Ok(()) => ControlFlow::Continue(State::ReadNextSection {
-                                        statement,
-                                        prev_section,
-                                    }),
+                                    Ok(()) => {
+                                        ControlFlow::Continue(State::ReadNextSection { statement })
+                                    }
                                     Err(err) => ControlFlow::Break(err),
                                 }
                             }
                             Err(HookError::Warning(warn)) => {
                                 statement.add_warning((lineno, warn));
-                                ControlFlow::Continue(State::ReadNextSection {
-                                    statement,
-                                    prev_section,
-                                })
+                                ControlFlow::Continue(State::ReadNextSection { statement })
                             }
                             Err(HookError::Error(err)) => ControlFlow::Break(ParserError {
                                 lineno,
@@ -474,18 +461,15 @@ impl Parser {
                         State::ReadNextSection { statement, .. },
                         Line::Section(Section::EndOfFile),
                     ) => ControlFlow::Continue(State::Finished(statement)),
-                    (
-                        State::ReadNextSection {
-                            prev_section: _, ..
-                        },
-                        Line::Section(s),
-                    ) => ControlFlow::Break(ParserError {
-                        lineno,
-                        kind: ParserErrorKind::UnexpectedSection {
-                            found: s.to_string(),
-                            context: SectionContext::ReadNextSection,
-                        },
-                    }),
+                    (State::ReadNextSection { .. }, Line::Section(s)) => {
+                        ControlFlow::Break(ParserError {
+                            lineno,
+                            kind: ParserErrorKind::UnexpectedSection {
+                                found: s.to_string(),
+                                context: SectionContext::ReadNextSection,
+                            },
+                        })
+                    }
                     (State::ReadNextSection { .. }, Line::Attr(k, v)) => {
                         ControlFlow::Break(ParserError {
                             lineno,
@@ -552,8 +536,8 @@ impl Parser {
 fn parse_lines(raw: &str) -> Result<Vec<(usize, Line<'_>)>, Error> {
     raw.lines()
         .enumerate()
-        .filter(|(_, line)| !line.trim().is_empty())
-        .map(|(lineno0, line)| (lineno0 + 1, line))
+        .map(|(lineno0, line)| (lineno0 + 1, line.trim()))
+        .filter(|(_, line)| !line.is_empty())
         .map(|(lineno, line)| {
             Line::try_from(line)
                 .map(|l| (lineno, l))
@@ -587,7 +571,9 @@ impl<'a> TryFrom<&'a str> for Section<'a> {
             (None, "1CClientBankExchange") => Ok(Section::StartOfFile),
             (None, "СекцияРасчСчет") => Ok(Section::Account),
             (None, "КонецРасчСчет") => Ok(Section::EndOfAccount),
-            (Some(("СекцияДокумент", typ)), _) => Ok(Section::Document(typ)),
+            (Some((key, typ)), _) if key.trim_end() == "СекцияДокумент" => {
+                Ok(Section::Document(typ.trim_start()))
+            }
             (None, "КонецДокумента") => Ok(Section::EndOfDocument),
             (None, "КонецФайла") => Ok(Section::EndOfFile),
             _ => Err(()),
@@ -621,7 +607,7 @@ impl<'a> TryFrom<&'a str> for Line<'a> {
             return Ok(Self::Section(v));
         }
         match s.split_once('=') {
-            Some((k, v)) => Ok(Self::Attr(k, v)),
+            Some((k, v)) => Ok(Self::Attr(k.trim(), v.trim())),
             None => Err(s),
         }
     }
@@ -642,7 +628,6 @@ enum State<'a> {
     },
     ReadNextSection {
         statement: Statement,
-        prev_section: Section<'a>,
     },
     Finished(Statement),
 }
@@ -681,11 +666,10 @@ where
 
 enum AddDocError {
     Warning(String),
-    Critical(String),
 }
 
 fn is_1c_header_line(line: &str) -> bool {
-    line.len() <= 64 && line == "1CClientBankExchange"
+    line.trim() == "1CClientBankExchange"
 }
 
 fn parse_as_cp1251(v: &[u8]) -> Option<Cow<'_, str>> {
@@ -716,6 +700,8 @@ fn parse_as_utf8(v: &[u8]) -> Option<&str> {
 }
 
 fn parse_text(content: &[u8]) -> Option<(Cow<'_, str>, Encoding)> {
+    // Выгрузки из 1С часто начинаются с UTF-8 BOM — он не является частью формата.
+    let content = content.strip_prefix(b"\xEF\xBB\xBF").unwrap_or(content);
     if let Some(s) = parse_as_utf8(content) {
         let first_line = s.lines().next().unwrap_or("");
         if !is_1c_header_line(first_line) {

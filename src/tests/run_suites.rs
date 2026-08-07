@@ -1,4 +1,4 @@
-use crate::parser;
+use odin_palace::parser;
 use rstest::rstest;
 use std::fs;
 use std::path::PathBuf;
