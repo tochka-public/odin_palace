@@ -1,6 +1,5 @@
 //! Стейт-машина разбора выписки.
 
-use std::borrow::Cow;
 use std::ops::ControlFlow;
 
 use indexmap::IndexMap;
@@ -52,7 +51,7 @@ impl Parser {
             return Err(Error::Empty);
         }
         let (raw, encoding) = parse_text(content).ok_or(Error::Not1CStatement)?;
-        match self.parse_internal(&raw, encoding)? {
+        match self.parse_internal(&raw, encoding) {
             ControlFlow::Continue(State::Finished(statement)) => Ok(statement),
             ControlFlow::Break(err) => Err(Error::Syntax(err)),
             ControlFlow::Continue(_) => Err(Error::Unfinished),
@@ -71,16 +70,29 @@ impl Parser {
         Ok(())
     }
 
+    /// Прогоняет стейт-машину по строкам без промежуточной материализации:
+    /// каждая строка лексируется и сразу подаётся в [`Parser::step`].
     fn parse_internal<'a>(
         &self,
-        raw: &'a Cow<'a, str>,
+        raw: &'a str,
         encoding: Encoding,
-    ) -> Result<ControlFlow<ParserError, State<'a>>, Error> {
-        Ok(parse_lines(raw)?
-            .into_iter()
-            .try_fold(State::Init, |state, (lineno, line)| {
-                self.step(state, lineno, line, encoding)
-            }))
+    ) -> ControlFlow<ParserError, State<'a>> {
+        let mut state = State::Init;
+        for (lineno, raw_line) in numbered_lines(raw) {
+            let line = match Line::try_from(raw_line) {
+                Ok(line) => line,
+                Err(unrecognized) => {
+                    return ControlFlow::Break(ParserError {
+                        lineno,
+                        kind: ParserErrorKind::UnrecognizedLine {
+                            line: unrecognized.to_string(),
+                        },
+                    });
+                }
+            };
+            state = self.step(state, lineno, line, encoding)?;
+        }
+        ControlFlow::Continue(state)
     }
 
     fn step<'a>(
@@ -275,24 +287,6 @@ impl Parser {
             }),
         }
     }
-}
-
-fn parse_lines(raw: &str) -> Result<Vec<(usize, Line<'_>)>, Error> {
-    numbered_lines(raw)
-        .map(|(lineno, line)| {
-            Line::try_from(line)
-                .map(|l| (lineno, l))
-                .map_err(|e| (lineno, e))
-        })
-        .collect::<Result<Vec<_>, _>>()
-        .map_err(|(lineno, e)| {
-            Error::Syntax(ParserError {
-                lineno,
-                kind: ParserErrorKind::UnrecognizedLine {
-                    line: e.to_string(),
-                },
-            })
-        })
 }
 
 #[derive(Debug)]

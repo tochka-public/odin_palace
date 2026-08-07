@@ -5,6 +5,7 @@ use indexmap::IndexMap;
 use rust_decimal::Decimal;
 use serde::Deserialize;
 
+use super::de;
 use super::de::{deserialize_dt, try_deserialize_dt};
 use super::encoding::Encoding;
 use super::error::{ParserError, ParserErrorKind, SectionContext};
@@ -151,63 +152,61 @@ impl Statement {
         typ: &str,
         attrs: IndexMap<String, String>,
     ) -> Result<(), AddDocError> {
-        let value_map_json: IndexMap<String, serde_json::Value> = attrs
-            .iter()
-            .map(|(k, v)| (k.clone(), serde_json::Value::String(v.clone())))
-            .collect();
-        let mut value_map_json = value_map_json;
-        value_map_json.insert(
-            "СекцияДокумент".into(),
-            serde_json::Value::String(typ.into()),
-        );
-        let value = serde_json::Value::Object(value_map_json.into_iter().collect());
+        let doc_type = ("СекцияДокумент".to_string(), typ.to_string());
         let doc: Document =
-            serde_json::from_value(value).map_err(|e| AddDocError::Warning(e.to_string()))?;
+            de::from_owned_attrs(attrs.into_iter().chain(std::iter::once(doc_type)))
+                .map_err(|e| AddDocError::Warning(e.to_string()))?;
         self.documents.push(doc);
         Ok(())
     }
 
     pub(super) fn add_account(
         &mut self,
-        attrs: IndexMap<String, String>,
+        mut attrs: IndexMap<String, String>,
         lineno: usize,
     ) -> Result<(), ParserError> {
-        let value_map = &attrs;
-        let value = serde_json::Value::Object(
-            value_map
-                .iter()
-                .map(|(k, v)| (k.clone(), serde_json::Value::String(v.clone())))
-                .collect(),
-        );
-        let interval: Interval = serde_json::from_value(value).map_err(|e| ParserError {
+        let interval: Interval = de::from_borrowed_attrs(
+            attrs.iter().map(|(k, v)| (k.as_str(), v.as_str())),
+        )
+        .map_err(|e| ParserError {
             lineno,
             kind: ParserErrorKind::AccountParseError(e.to_string()),
         })?;
-        let number = value_map
-            .get("РасчСчет")
-            .ok_or_else(|| ParserError {
-                lineno,
-                kind: ParserErrorKind::MissingField {
-                    field: "РасчСчет".to_string(),
-                    context: SectionContext::Account,
-                },
-            })?
-            .to_string();
-        let key = number.clone();
-        match self.accounts.get_mut(&key) {
+        let number = attrs.shift_remove("РасчСчет").ok_or_else(|| ParserError {
+            lineno,
+            kind: ParserErrorKind::MissingField {
+                field: "РасчСчет".to_string(),
+                context: SectionContext::Account,
+            },
+        })?;
+        match self.accounts.get_mut(&number) {
             Some(account) => {
-                if account.intervals.contains(&interval) {
-                    return Ok(());
-                }
-                let pos = account
+                // Интервалы отсортированы по дате начала, поэтому дубликат может
+                // находиться только в непрерывном блоке с той же датой.
+                let run_start = account
                     .intervals
-                    .binary_search_by_key(&interval.date_start, |i| i.date_start)
-                    .unwrap_or_else(|e| e);
-                account.intervals.insert(pos, interval);
+                    .partition_point(|i| i.date_start < interval.date_start);
+                let run = account
+                    .intervals
+                    .iter()
+                    .skip(run_start)
+                    .take_while(|i| i.date_start == interval.date_start);
+                let mut run_len = 0;
+                let mut is_duplicate = false;
+                for existing in run {
+                    if *existing == interval {
+                        is_duplicate = true;
+                        break;
+                    }
+                    run_len += 1;
+                }
+                if !is_duplicate {
+                    account.intervals.insert(run_start + run_len, interval);
+                }
             }
             None => {
                 self.accounts.insert(
-                    key,
+                    number.clone(),
                     Account {
                         number,
                         intervals: vec![interval],
