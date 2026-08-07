@@ -1,0 +1,45 @@
+---
+source: src/tests/run_suites.rs
+---
+Ok(
+    Statement {
+        encoding: Utf8,
+        header: {
+            "ВерсияФормата": "1.03",
+            "Кодировка": "Windows",
+        },
+        accounts: {
+            "40702810000000000111": Account {
+                number: "40702810000000000111",
+                intervals: [
+                    Interval {
+                        date_start: 2024-05-01,
+                        date_end: Some(
+                            2024-05-31,
+                        ),
+                        total_income: None,
+                        total_expense: None,
+                        start_amount: 500.00,
+                        end_amount: Some(
+                            1000.00,
+                        ),
+                    },
+                    Interval {
+                        date_start: 2024-06-01,
+                        date_end: Some(
+                            2024-06-30,
+                        ),
+                        total_income: None,
+                        total_expense: None,
+                        start_amount: 1000.00,
+                        end_amount: Some(
+                            1300.00,
+                        ),
+                    },
+                ],
+            },
+        },
+        documents: [],
+        warnings: [],
+    },
+)

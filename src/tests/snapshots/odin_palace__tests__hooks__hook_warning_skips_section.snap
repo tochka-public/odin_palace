@@ -1,0 +1,13 @@
+---
+source: src/tests/hooks.rs
+expression: "(statement.documents, statement.warnings)"
+---
+(
+    [],
+    [
+        (
+            21,
+            "подозрительный документ",
+        ),
+    ],
+)

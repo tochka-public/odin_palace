@@ -1,0 +1,14 @@
+---
+source: src/tests/hooks.rs
+expression: result
+---
+Err(
+    Syntax(
+        ParserError {
+            lineno: 7,
+            kind: HookError(
+                "критическая ошибка",
+            ),
+        },
+    ),
+)
