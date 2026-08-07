@@ -17,19 +17,30 @@ pub struct ParserBuilder {
 }
 
 impl ParserBuilder {
+    #[must_use]
     pub fn new() -> Self {
         Self::default()
     }
 
+    #[must_use]
     pub fn with_hooks(mut self, hooks: Vec<Box<SectionHook>>) -> Self {
         self.section_hooks = hooks;
         self
     }
 
+    #[must_use]
     pub fn build(self) -> Parser {
         Parser {
             section_hooks: self.section_hooks,
         }
+    }
+}
+
+impl std::fmt::Debug for ParserBuilder {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("ParserBuilder")
+            .field("section_hooks", &self.section_hooks.len())
+            .finish()
     }
 }
 
@@ -44,8 +55,22 @@ impl Default for Parser {
     }
 }
 
+impl std::fmt::Debug for Parser {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("Parser")
+            .field("section_hooks", &self.section_hooks.len())
+            .finish()
+    }
+}
+
 impl Parser {
     /// Разбирает выписку из байтов (кодировки UTF-8 и CP1251, UTF-8 BOM допускается).
+    ///
+    /// # Errors
+    ///
+    /// Возвращает [`Error::Empty`] для пустого ввода, [`Error::Not1CStatement`],
+    /// если данные не являются выпиской, [`Error::Unfinished`], если файл
+    /// оборван, и [`Error::Syntax`] при синтаксической ошибке.
     pub fn parse(&self, content: &[u8]) -> Result<Statement, Error> {
         if content.iter().all(u8::is_ascii_whitespace) {
             return Err(Error::Empty);
@@ -65,7 +90,7 @@ impl Parser {
         statement: &Statement,
     ) -> Result<(), HookError> {
         for hook in &self.section_hooks {
-            hook(section, attrs, statement)?
+            hook(section, attrs, statement)?;
         }
         Ok(())
     }
@@ -105,7 +130,7 @@ impl Parser {
         match (state, line) {
             // Начальное состояние, каждая выписка в первой строке имеет заголовок "1CClientBankExchange"
             (State::Init, Line::Section(Section::StartOfFile)) => {
-                ControlFlow::Continue(State::Header(Default::default()))
+                ControlFlow::Continue(State::Header(IndexMap::new()))
             }
             // После заголовка — заголовочные атрибуты без границ секции
             (State::Header(mut attrs), Line::Attr(k, v)) => {
@@ -117,14 +142,14 @@ impl Parser {
                 ControlFlow::Continue(State::Document {
                     statement: Statement::new(encoding, attrs),
                     typ,
-                    attrs: Default::default(),
+                    attrs: IndexMap::new(),
                 })
             }
             // Либо СекцияРасчСчет
             (State::Header(attrs), Line::Section(Section::Account)) => {
                 ControlFlow::Continue(State::Account {
                     statement: Statement::new(encoding, attrs),
-                    attrs: Default::default(),
+                    attrs: IndexMap::new(),
                 })
             }
             // Чтение документа
@@ -145,31 +170,12 @@ impl Parser {
             }
             (
                 State::Document {
-                    mut statement,
+                    statement,
                     typ,
-                    mut attrs,
+                    attrs,
                 },
                 Line::Section(Section::EndOfDocument),
-            ) => {
-                let section_type = SectionType::Document;
-                match self.call_hooks(section_type, &mut attrs, &statement) {
-                    Ok(()) => match statement.add_document(typ, attrs) {
-                        Ok(()) => ControlFlow::Continue(State::ReadNextSection { statement }),
-                        Err(AddDocError::Warning(e)) => {
-                            statement.add_warning((lineno, e));
-                            ControlFlow::Continue(State::ReadNextSection { statement })
-                        }
-                    },
-                    Err(HookError::Warning(warn)) => {
-                        statement.add_warning((lineno, warn));
-                        ControlFlow::Continue(State::ReadNextSection { statement })
-                    }
-                    Err(HookError::Error(err)) => ControlFlow::Break(ParserError {
-                        lineno,
-                        kind: ParserErrorKind::HookError(err),
-                    }),
-                }
-            }
+            ) => self.finish_document(statement, typ, attrs, lineno),
             // Чтение счёта
             (
                 State::Account {
@@ -181,111 +187,123 @@ impl Parser {
                 attrs.insert(k.to_string(), v.to_string());
                 ControlFlow::Continue(State::Account { statement, attrs })
             }
-            (
-                State::Account {
-                    mut attrs,
-                    mut statement,
-                },
-                Line::Section(Section::EndOfAccount),
-            ) => {
-                let section_type = SectionType::Account;
-                match self.call_hooks(section_type, &mut attrs, &statement) {
-                    Ok(()) => match statement.add_account(attrs, lineno) {
-                        Ok(()) => ControlFlow::Continue(State::ReadNextSection { statement }),
-                        Err(err) => ControlFlow::Break(err),
-                    },
-                    Err(HookError::Warning(warn)) => {
-                        statement.add_warning((lineno, warn));
-                        ControlFlow::Continue(State::ReadNextSection { statement })
-                    }
-                    Err(HookError::Error(err)) => ControlFlow::Break(ParserError {
-                        lineno,
-                        kind: ParserErrorKind::HookError(err),
-                    }),
-                }
+            (State::Account { attrs, statement }, Line::Section(Section::EndOfAccount)) => {
+                self.finish_account(statement, attrs, lineno)
             }
-            // Секции документа и счёта заканчиваются соответствующими секциями: КонецДокумента и КонецРасчСчет
-            // После чего парсер ищет следующую секцию
+            // Секции документа и счёта заканчиваются соответствующими секциями:
+            // КонецДокумента и КонецРасчСчет, после чего парсер ищет следующую секцию
             (State::ReadNextSection { statement }, Line::Section(Section::Account)) => {
                 ControlFlow::Continue(State::Account {
                     statement,
-                    attrs: Default::default(),
+                    attrs: IndexMap::new(),
                 })
             }
             (State::ReadNextSection { statement }, Line::Section(Section::Document(typ))) => {
                 ControlFlow::Continue(State::Document {
                     statement,
                     typ,
-                    attrs: Default::default(),
+                    attrs: IndexMap::new(),
                 })
             }
             (State::ReadNextSection { statement }, Line::Section(Section::EndOfFile)) => {
                 ControlFlow::Continue(State::Finished(statement))
             }
-            (State::ReadNextSection { .. }, Line::Section(s)) => ControlFlow::Break(ParserError {
+            (State::ReadNextSection { .. }, Line::Section(s)) => ControlFlow::Break(
+                unexpected_section(lineno, &s, SectionContext::ReadNextSection),
+            ),
+            (State::Init, Line::Section(s)) => {
+                ControlFlow::Break(unexpected_section(lineno, &s, SectionContext::Init))
+            }
+            (State::Header(_), Line::Section(s)) => {
+                ControlFlow::Break(unexpected_section(lineno, &s, SectionContext::Header))
+            }
+            (State::Document { .. }, Line::Section(s)) => {
+                ControlFlow::Break(unexpected_section(lineno, &s, SectionContext::Document))
+            }
+            (State::Account { .. }, Line::Section(s)) => {
+                ControlFlow::Break(unexpected_section(lineno, &s, SectionContext::Account))
+            }
+            (State::Finished(_), Line::Section(s)) => {
+                ControlFlow::Break(unexpected_section(lineno, &s, SectionContext::Finished))
+            }
+            // Атрибут вне секции недопустим
+            (
+                State::Init | State::ReadNextSection { .. } | State::Finished(_),
+                Line::Attr(k, v),
+            ) => ControlFlow::Break(unexpected_attribute(lineno, k, v)),
+        }
+    }
+
+    fn finish_document<'a>(
+        &self,
+        mut statement: Statement,
+        typ: &'a str,
+        mut attrs: IndexMap<String, String>,
+        lineno: usize,
+    ) -> ControlFlow<ParserError, State<'a>> {
+        match self.call_hooks(SectionType::Document, &mut attrs, &statement) {
+            Ok(()) => match statement.add_document(typ, attrs) {
+                Ok(()) => ControlFlow::Continue(State::ReadNextSection { statement }),
+                Err(AddDocError::Warning(e)) => {
+                    statement.add_warning((lineno, e));
+                    ControlFlow::Continue(State::ReadNextSection { statement })
+                }
+            },
+            Err(HookError::Warning(warn)) => {
+                statement.add_warning((lineno, warn));
+                ControlFlow::Continue(State::ReadNextSection { statement })
+            }
+            Err(HookError::Error(err)) => ControlFlow::Break(ParserError {
                 lineno,
-                kind: ParserErrorKind::UnexpectedSection {
-                    found: s.to_string(),
-                    context: SectionContext::ReadNextSection,
-                },
-            }),
-            (State::ReadNextSection { .. }, Line::Attr(k, v)) => ControlFlow::Break(ParserError {
-                lineno,
-                kind: ParserErrorKind::UnexpectedAttribute {
-                    key: k.to_string(),
-                    value: v.to_string(),
-                },
-            }),
-            (State::Init, Line::Attr(k, v)) => ControlFlow::Break(ParserError {
-                lineno,
-                kind: ParserErrorKind::UnexpectedAttribute {
-                    key: k.to_string(),
-                    value: v.to_string(),
-                },
-            }),
-            (State::Init, Line::Section(s)) => ControlFlow::Break(ParserError {
-                lineno,
-                kind: ParserErrorKind::UnexpectedSection {
-                    found: s.to_string(),
-                    context: SectionContext::Init,
-                },
-            }),
-            (State::Header(_), Line::Section(s)) => ControlFlow::Break(ParserError {
-                lineno,
-                kind: ParserErrorKind::UnexpectedSection {
-                    found: s.to_string(),
-                    context: SectionContext::Header,
-                },
-            }),
-            (State::Document { .. }, Line::Section(s)) => ControlFlow::Break(ParserError {
-                lineno,
-                kind: ParserErrorKind::UnexpectedSection {
-                    found: s.to_string(),
-                    context: SectionContext::Document,
-                },
-            }),
-            (State::Account { .. }, Line::Section(s)) => ControlFlow::Break(ParserError {
-                lineno,
-                kind: ParserErrorKind::UnexpectedSection {
-                    found: s.to_string(),
-                    context: SectionContext::Account,
-                },
-            }),
-            (State::Finished(_), Line::Attr(k, v)) => ControlFlow::Break(ParserError {
-                lineno,
-                kind: ParserErrorKind::UnexpectedAttribute {
-                    key: k.to_string(),
-                    value: v.to_string(),
-                },
-            }),
-            (State::Finished(_), Line::Section(s)) => ControlFlow::Break(ParserError {
-                lineno,
-                kind: ParserErrorKind::UnexpectedSection {
-                    found: s.to_string(),
-                    context: SectionContext::Finished,
-                },
+                kind: ParserErrorKind::HookError(err),
             }),
         }
+    }
+
+    fn finish_account<'a>(
+        &self,
+        mut statement: Statement,
+        mut attrs: IndexMap<String, String>,
+        lineno: usize,
+    ) -> ControlFlow<ParserError, State<'a>> {
+        match self.call_hooks(SectionType::Account, &mut attrs, &statement) {
+            Ok(()) => match statement.add_account(attrs, lineno) {
+                Ok(()) => ControlFlow::Continue(State::ReadNextSection { statement }),
+                Err(err) => ControlFlow::Break(err),
+            },
+            Err(HookError::Warning(warn)) => {
+                statement.add_warning((lineno, warn));
+                ControlFlow::Continue(State::ReadNextSection { statement })
+            }
+            Err(HookError::Error(err)) => ControlFlow::Break(ParserError {
+                lineno,
+                kind: ParserErrorKind::HookError(err),
+            }),
+        }
+    }
+}
+
+fn unexpected_section(
+    lineno: usize,
+    section: &Section<'_>,
+    context: SectionContext,
+) -> ParserError {
+    ParserError {
+        lineno,
+        kind: ParserErrorKind::UnexpectedSection {
+            found: section.to_string(),
+            context,
+        },
+    }
+}
+
+fn unexpected_attribute(lineno: usize, key: &str, value: &str) -> ParserError {
+    ParserError {
+        lineno,
+        kind: ParserErrorKind::UnexpectedAttribute {
+            key: key.to_string(),
+            value: value.to_string(),
+        },
     }
 }
 

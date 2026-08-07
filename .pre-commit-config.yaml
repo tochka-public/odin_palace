@@ -1,27 +1,45 @@
-minimum_pre_commit_version: 3.2.0
-default_stages: [ pre-commit ]
+# Полный локальный контроль до коммита: гигиена файлов, опечатки,
+# формат, clippy со всеми включёнными lint-группами и тесты.
 repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: check-merge-conflict
+      - id: check-yaml
+      - id: check-toml
+      - id: check-added-large-files
+        args: [--maxkb=600]
+      - id: end-of-file-fixer
+        exclude: '^src/tests/suites/|^benches/bench_statement\.txt$|\.snap$'
+      - id: trailing-whitespace
+        exclude: '^src/tests/suites/|^benches/bench_statement\.txt$|\.snap$'
+      - id: mixed-line-ending
+        args: [--fix=lf]
+        exclude: '^src/tests/suites/|^benches/bench_statement\.txt$|\.snap$'
+
+  - repo: https://github.com/crate-ci/typos
+    rev: v1.49.0
+    hooks:
+      - id: typos
+        exclude: '^src/tests/suites/|^benches/bench_statement\.txt$|\.snap$'
+
   - repo: local
     hooks:
-      - id: fmt
-        name: fmt
-        entry: cargo fmt
-        pass_filenames: false
+      - id: cargo-fmt
+        name: cargo fmt --check
+        entry: cargo fmt --all --check
         language: system
-        always_run: true
-  - repo: local
-    hooks:
-      - id: clippy
-        name: clippy
-        entry: cargo clippy --all-targets --all-features
+        types: [rust]
         pass_filenames: false
+      - id: cargo-clippy
+        name: cargo clippy (all targets, -D warnings)
+        entry: cargo clippy --all-targets --all-features -- -D warnings
         language: system
-        always_run: true
-  - repo: local
-    hooks:
-      - id: tests
-        name: tests
+        types: [rust]
+        pass_filenames: false
+      - id: cargo-test
+        name: cargo test
         entry: cargo test
-        pass_filenames: false
         language: system
-        always_run: true
+        types: [rust]
+        pass_filenames: false

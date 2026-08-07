@@ -33,11 +33,11 @@ unsafe impl GlobalAlloc for CountingAllocator {
 #[global_allocator]
 static GLOBAL: CountingAllocator = CountingAllocator;
 
-fn main() {
+fn main() -> Result<(), Box<dyn std::error::Error>> {
     let path = std::env::args()
         .nth(1)
         .unwrap_or_else(|| "benches/bench_statement.txt".to_string());
-    let content = std::fs::read(&path).expect("cannot read input file");
+    let content = std::fs::read(&path)?;
     let parser = odin_palace::parser::Parser::default();
 
     // Прогрев, чтобы разовые инициализации не попадали в счётчики
@@ -45,7 +45,9 @@ fn main() {
 
     let allocs_before = ALLOCATIONS.load(Ordering::Relaxed);
     let bytes_before = ALLOCATED_BYTES.load(Ordering::Relaxed);
-    let statement = parser.parse(&content).expect("parse failed");
+    let statement = parser
+        .parse(&content)
+        .map_err(|e| format!("parse failed: {e:?}"))?;
     let allocs = ALLOCATIONS.load(Ordering::Relaxed) - allocs_before;
     let bytes = ALLOCATED_BYTES.load(Ordering::Relaxed) - bytes_before;
 
@@ -53,4 +55,5 @@ fn main() {
         "file={path} docs={} allocations={allocs} allocated_bytes={bytes}",
         statement.documents.len()
     );
+    Ok(())
 }

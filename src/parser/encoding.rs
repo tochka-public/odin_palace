@@ -15,7 +15,7 @@ pub enum Encoding {
 ///
 /// Возвращает `None`, если входные данные не декодируются ни одной из
 /// поддерживаемых кодировок или не начинаются с "1CClientBankExchange".
-pub fn parse_text(content: &[u8]) -> Option<(Cow<'_, str>, Encoding)> {
+pub(super) fn parse_text(content: &[u8]) -> Option<(Cow<'_, str>, Encoding)> {
     // Выгрузки из 1С часто начинаются с UTF-8 BOM — он не является частью формата.
     let content = content.strip_prefix(b"\xEF\xBB\xBF").unwrap_or(content);
     if let Some(s) = parse_as_utf8(content) {

@@ -93,8 +93,8 @@ struct Mappings {
 impl Mappings {
     fn collect(input: &str) -> Self {
         let mut mappings = Self::default();
-        let mut payer_num = 1usize;
-        let mut payee_num = 1usize;
+        let mut next_payer_index = 1usize;
+        let mut next_recipient_index = 1usize;
         let mut fio_idx = 0usize;
         let mut purpose_idx = 0usize;
         let mut account_idx = 1usize;
@@ -116,13 +116,13 @@ impl Mappings {
                         Some(template) => (*template).to_string(),
                         None => match role {
                             FioRole::Payer => {
-                                let t = format!("Плательщик_{payer_num}");
-                                payer_num += 1;
+                                let t = format!("Плательщик_{next_payer_index}");
+                                next_payer_index += 1;
                                 t
                             }
                             FioRole::Payee => {
-                                let t = format!("Получатель_{payee_num}");
-                                payee_num += 1;
+                                let t = format!("Получатель_{next_recipient_index}");
+                                next_recipient_index += 1;
                                 t
                             }
                         },
@@ -174,7 +174,7 @@ impl Mappings {
     }
 }
 
-pub fn anonymize_str(input: &str) -> String {
+pub(crate) fn anonymize_str(input: &str) -> String {
     let mappings = Mappings::collect(input);
 
     let mut out = String::with_capacity(input.len());

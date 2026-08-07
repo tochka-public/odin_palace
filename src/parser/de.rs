@@ -9,7 +9,7 @@ use serde::{Deserialize, Deserializer};
 const DATE_FORMAT: &str = "%d.%m.%Y";
 
 /// Десериализует структуру напрямую из владеющих пар атрибутов секции.
-pub fn from_owned_attrs<'de, T>(
+pub(super) fn from_owned_attrs<'de, T>(
     attrs: impl Iterator<Item = (String, String)>,
 ) -> Result<T, AttrError>
 where
@@ -19,7 +19,7 @@ where
 }
 
 /// Десериализует структуру из заимствованных пар атрибутов секции.
-pub fn from_borrowed_attrs<'de, T>(
+pub(super) fn from_borrowed_attrs<'de, T>(
     attrs: impl Iterator<Item = (&'de str, &'de str)>,
 ) -> Result<T, AttrError>
 where
@@ -31,7 +31,7 @@ where
 }
 
 /// Парсинг опциональных дат формата "%d.%m.%Y".
-pub fn try_deserialize_dt<'de, D>(deserializer: D) -> Result<Option<NaiveDate>, D::Error>
+pub(super) fn try_deserialize_dt<'de, D>(deserializer: D) -> Result<Option<NaiveDate>, D::Error>
 where
     D: Deserializer<'de>,
 {
@@ -45,7 +45,7 @@ where
 }
 
 /// Парсинг обязательных дат формата "%d.%m.%Y".
-pub fn deserialize_dt<'de, D>(deserializer: D) -> Result<NaiveDate, D::Error>
+pub(super) fn deserialize_dt<'de, D>(deserializer: D) -> Result<NaiveDate, D::Error>
 where
     D: Deserializer<'de>,
 {
@@ -86,7 +86,7 @@ impl<'de> Deserializer<'de> for OwnedAttr {
     }
 }
 
-impl<'de> IntoDeserializer<'de, AttrError> for OwnedAttr {
+impl IntoDeserializer<'_, AttrError> for OwnedAttr {
     type Deserializer = Self;
 
     fn into_deserializer(self) -> Self {

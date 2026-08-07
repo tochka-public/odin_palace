@@ -28,7 +28,7 @@ impl<'a> TryFrom<&'a str> for Section<'a> {
     }
 }
 
-impl<'a> std::fmt::Display for Section<'a> {
+impl std::fmt::Display for Section<'_> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             Section::StartOfFile => write!(f, "1CClientBankExchange"),
@@ -43,7 +43,7 @@ impl<'a> std::fmt::Display for Section<'a> {
 
 /// Одна значащая строка файла: либо граница секции, либо атрибут "Ключ=Значение".
 #[derive(Debug, Clone, Copy)]
-pub enum Line<'a> {
+pub(super) enum Line<'a> {
     Section(Section<'a>),
     Attr(&'a str, &'a str),
 }
@@ -62,7 +62,7 @@ impl<'a> TryFrom<&'a str> for Line<'a> {
 }
 
 /// Итератор по непустым строкам с номерами (нумерация с 1).
-pub fn numbered_lines(raw: &str) -> impl Iterator<Item = (usize, &str)> {
+pub(super) fn numbered_lines(raw: &str) -> impl Iterator<Item = (usize, &str)> {
     raw.lines()
         .enumerate()
         .map(|(lineno0, line)| (lineno0 + 1, line.trim()))

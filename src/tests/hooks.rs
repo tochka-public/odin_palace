@@ -67,7 +67,7 @@ fn hook_warning_skips_section() {
     insta::assert_debug_snapshot!((statement.documents, statement.warnings));
 }
 
-/// Error из хука прерывает разбор с Error::Syntax(HookError).
+/// Error из хука прерывает разбор с `Error::Syntax(HookError)`.
 #[test]
 fn hook_error_stops_parsing() {
     let result = parse_with_hook(Box::new(|_section, _attrs, _statement| {
